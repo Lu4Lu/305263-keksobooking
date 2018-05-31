@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Ольга Лученок](https://up.htmlacademy.ru/javascript/14/user/305263).
-* Наставник: `Неизвестно`.
+* Наставник: `Данил Панкрашин`.
 
 ---
 
