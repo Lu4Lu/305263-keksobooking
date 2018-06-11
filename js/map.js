@@ -1,3 +1,5 @@
+'use strict';
+
 var mockAvatars = [
   'img/avatars/user01.png',
   'img/avatars/user02.png',
@@ -49,29 +51,28 @@ var mockFeatures = [
 ];
 
 var mockPhotos = [
-  "http://o0.github.io/assets/images/tokyo/hotel1.jpg",
+  'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
   'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
   'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
 ];
 
-
-//random from range
+// random from range
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-//random array index
+// random array index
 function getRandomIndex(arr) {
-  return getRandomInt(0,  arr.length - 1);
+  return getRandomInt(0, arr.length - 1);
 }
 
-//random array item
+// random array item
 function getRandomItemFromArray(arr) {
-  //get an array element with the random index
+  // get an array element with the random index
   return arr[getRandomIndex(arr)];
 }
 
-//remove randomly an array element
+// remove randomly an array element
 function getRandomItemFromArrayAndRemoveItem(arr) {
   // search for the index
   var index = getRandomIndex(arr);
@@ -82,12 +83,13 @@ function getRandomItemFromArrayAndRemoveItem(arr) {
   return item;
 }
 
+// get random set of items
 function getRandomOrderForArray(arr) {
   var orderArr = [];
   var copyArr = arr.slice();
-  //make the cycle for random amount of items
+  // make the cycle for random amount of items
   for (var i = 0; i < arr.length; i++) {
-    //add sequentially the items initial array to the new one
+    // add sequentially the items initial array to the new one
     orderArr.push(getRandomItemFromArrayAndRemoveItem(copyArr));
     // search for the index
   }
@@ -107,9 +109,9 @@ for (var i = 0; i < 8; i++) {
   var location = {
     x: getRandomInt(300, 900),
     y: getRandomInt(130, 630)
-  }
+  };
 
-  // object with all accomodation data
+  // object with all accommodation data
   var accomodation = {
     author: {
       avatar: getRandomItemFromArrayAndRemoveItem(mockAvatars)
@@ -132,6 +134,5 @@ for (var i = 0; i < 8; i++) {
     location: location
   };
 
-  console.log(accomodation);
   appartments.push(accomodation);
 }
