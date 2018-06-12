@@ -1,5 +1,22 @@
 'use strict';
 
+var userDialog = document.querySelector('.map');
+userDialog.classList.remove('map--faded');
+
+var pinListElement = userDialog.querySelector('.map__pins');
+
+var similarPinTemplate = document.querySelector('template')
+  .content
+  .querySelector('.map__pin');
+
+var cardListElement = userDialog;
+// var cardListElement = userDialog.querySelector('.map');
+//
+var similarCardTemplate = document.querySelector('template')
+  .content
+  .querySelector('.map__card');
+
+
 var mockAvatars = [
   'img/avatars/user01.png',
   'img/avatars/user02.png',
@@ -103,36 +120,115 @@ function getRandomItemsFromArray(arr) {
   return getRandomOrderForArray(arr).slice(0, items);
 }
 
-var appartments = [];
+(function mockUserData() {
 
-for (var i = 0; i < 8; i++) {
-  var location = {
-    x: getRandomInt(300, 900),
-    y: getRandomInt(130, 630)
-  };
+  window.appartments = [];
 
-  // object with all accommodation data
-  var accomodation = {
-    author: {
-      avatar: getRandomItemFromArrayAndRemoveItem(mockAvatars)
-    },
+  for (var i = 0; i < 8; i++) {
+    var location = {
+      x: getRandomInt(300, 900),
+      y: getRandomInt(130, 630)
+    };
 
-    offer: {
-      title: getRandomItemFromArrayAndRemoveItem(mockTitles),
-      address: location.x + ', ' + location.y,
-      price: getRandomInt(1000, 1000000),
-      type: getRandomItemFromArray(mockTypes),
-      rooms: getRandomInt(1, 5),
-      guests: getRandomInt(1, 20),
-      checkin: getRandomItemFromArray(mockCheckIn),
-      checkout: getRandomItemFromArray(mockCheckOut),
-      features: getRandomItemsFromArray(mockFeatures),
-      description: ' ',
-      photos: getRandomOrderForArray(mockPhotos)
-    },
+    // object with all accommodation data
+    var accomodation = {
+      author: {
+        avatar: getRandomItemFromArrayAndRemoveItem(mockAvatars)
+      },
 
-    location: location
-  };
+      offer: {
+        title: getRandomItemFromArrayAndRemoveItem(mockTitles),
+        address: location.x + ', ' + location.y,
+        price: getRandomInt(1000, 1000000),
+        type: getRandomItemFromArray(mockTypes),
+        rooms: getRandomInt(1, 5),
+        guests: getRandomInt(1, 20),
+        checkin: getRandomItemFromArray(mockCheckIn),
+        checkout: getRandomItemFromArray(mockCheckOut),
+        features: getRandomItemsFromArray(mockFeatures),
+        description: ' ',
+        photos: getRandomOrderForArray(mockPhotos)
+      },
 
-  appartments.push(accomodation);
+      location: location
+    };
+
+    window.appartments.push(accomodation);
+  }
+})();
+
+// window.accomodations = [
+//   {
+//     locationX: '100px',
+//     locationY: '100px',
+//     title: 'flksajflks',
+//     author: 'lkjlksdjflksjf'
+//   },
+//   {
+//     locationX: 200,
+//     locationY: 200,
+//     title: 'flksajflks',
+//     author: 'lkjlksdjflksjf'
+//   },
+//   {
+//     locationX: 300,
+//     locationY: 400,
+//     title: 'flksajflks',
+//     author: 'lkjlksdjflksjf'
+//   },
+//   {
+//     locationX: 500,
+//     locationY: 600,
+//     title: 'flksajflks',
+//     author: 'lkjlksdjflksjf'
+//   }
+// ];
+
+
+var renderPin = function (accomodation) {
+
+  // var locationXStr = accomodation.locationX + 'px';
+  // var locationYStr = accomodation.locationY + 'px';
+
+  var pinElement = similarPinTemplate.cloneNode(true);
+  pinElement.style.left = accomodation.location.x;
+  pinElement.style.top = accomodation.location.y;
+  pinElement.querySelector('img').src = accomodation.author.avatar;
+  pinElement.querySelector('img').alt = accomodation.offer.title;
+
+
+  return pinElement;
+
+};
+
+var renderCard = function (accomodation) {
+
+  // var locationXStr = accomodation.locationX + 'px';
+  // var locationYStr = accomodation.locationY + 'px';
+
+  var cardElement = similarCardTemplate.cloneNode(true);
+
+  cardElement.querySelector('.popup__title').textContent = 'offer.title';
+  cardElement.querySelector('.popup__text--address').textContent = 'offer.address';
+  cardElement.querySelector('.popup__text--price').textContent = 'offer.price' + 'Р/ночь';
+  cardElement.querySelector('.popup__type').textContent = 'offer.type';
+  cardElement.querySelector('.popup__text--capacity').textContent = 'offer.rooms ' + 'для ' + 'offer.guests ' + 'гостей';
+  cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + 'offer.checkin ' + ', ' + 'выезд до ' + 'offer.checkin ' + '.';
+  // cardElement.querySelector('.popup__features').textContent = 'offer.features';
+  cardElement.querySelector('.popup__description').textContent = 'offer.description';
+  // cardElement.querySelector('.popup__photos').textContent = 'offer.photos';
+  cardElement.querySelector('.popup__avatar').src = 'author.avatar';
+
+  return cardElement;
+
+};
+
+var fragment = document.createDocumentFragment();
+for (var i = 0; i < window.appartments.length; i++) {
+  fragment.appendChild(renderPin(window.appartments[i]));
+  console.log(window.appartments[i]);
+  // fragment.appendChild(renderCard(window.appartments[i]));
+
 }
+pinListElement.appendChild(fragment);
+// cardListElement.appendChild(fragment);
