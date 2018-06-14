@@ -98,4 +98,5 @@ window.appartments.forEach(function (appartment) {
 var cardElement = renderCard(window.appartments[0]);
 
 pinsContainerElement.appendChild(fragment);
-mapElement.appendChild(cardElement);
+mapElement.insertBefore(cardElement, mapElement.querySelector('.map__filters-container'));
+
