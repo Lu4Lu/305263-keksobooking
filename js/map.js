@@ -30,9 +30,6 @@ var renderPin = function (accomodation) {
 };
 
 function renderPhotos(containerElement, photos) {
-
-  console.log(containerElement);
-
   // 3. создать переменную photoTemplate (клонируем туда элемент фото)
   var photoTemplate = containerElement.querySelector('.popup__photo');
 
@@ -54,8 +51,6 @@ function renderPhotos(containerElement, photos) {
 }
 
 function renderFeatures(containerElement, features) {
-  // 1. find the feature container
-  console.log(containerElement);
   // 2. clean it
   containerElement.innerHTML = '';
   // 4. start cycle for ... clone template element
