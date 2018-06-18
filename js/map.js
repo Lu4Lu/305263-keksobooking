@@ -16,15 +16,17 @@ var similarCardTemplate = document.querySelector('template')
   .querySelector('.map__card');
 
 
-var renderPin = function (accomodation, i) {
+var renderPin = function (accomodation) {
 
   var pinElement = pinTemplate.cloneNode(true);
   pinElement.style.left = accomodation.location.x - PIN_WIDTH / 2 + 'px';
   pinElement.style.top = accomodation.location.y - PIN_HEIGHT + 'px';
   pinElement.querySelector('img').src = accomodation.author.avatar;
   pinElement.querySelector('img').alt = accomodation.offer.title;
-  pinElement.dataset.index = i;
-  pinElement.children[0].dataset.index = i;
+  // set event listener for every pin element
+  pinElement.addEventListener('click', function () {
+    setCard(accomodation);
+  });
 
   return pinElement;
 
@@ -110,22 +112,26 @@ var pushCard = function (pinItem) {
 // var ESC_KEYCODE = 27;
 // var ENTER_KEYCODE = 13;
 
+var MAIN_PIN_WIDTH = 62;
+var MAIN_PIN_HEIGHT = 84;
+
 var mapPinMain = mapElement.querySelector('.map__pin--main');
 var adForm = document.querySelector('.ad-form');
 var fieldsets = adForm.querySelectorAll('fieldset');
 var formAddress = adForm.querySelector('#address');
 var mapPinMainRect = mapPinMain.getBoundingClientRect();
 
-var disableFieldsets = function () {
+var disableFieldsets = function (boolean) {
   for (var i = 0; i < fieldsets.length; i++) {
-    fieldsets[i].disabled = true;
+    fieldsets[i].disabled = boolean;
   }
 };
+disableFieldsets(true);
 
 // set address from main pin
 var setAddress = function () {
-  var mainPinX = Math.round(mapPinMainRect.x + mapPinMainRect.width / 2);
-  var mainPinY = mapPinMainRect.y + mapPinMainRect.height;
+  var mainPinX = Math.round(mapPinMainRect.x + MAIN_PIN_WIDTH / 2);
+  var mainPinY = mapPinMainRect.y + MAIN_PIN_HEIGHT;
   formAddress.value = mainPinX + ', ' + mainPinY;
 };
 
@@ -135,13 +141,12 @@ var releaseMainPin = function () {
   mapElement.classList.remove('map--faded');
   adForm.classList.remove('ad-form--disabled');
 
-  disableFieldsets();
   setAddress();
+  disableFieldsets(false);
 
   // push pins
   pushPins();
   mapPinMain.removeEventListener('mouseup', onMapPinMainMouseup);
-  pinsContainerElement.addEventListener('click', onUserPinClick);
 };
 
 // map unabling on mouseup
@@ -150,27 +155,31 @@ var onMapPinMainMouseup = function () {
 };
 mapPinMain.addEventListener('mouseup', onMapPinMainMouseup);
 
-//
-// need to get the index of the pin %( Help!
-//
+var setCard = function (accomodation) {
+
+  pushCard(accomodation);
+  // cardElement = renderCard(accomodation);
+  // mapElement.insertBefore(cardElement, mapElement.querySelector('.map__filters-container'));
+};
+
 // 1. find all the pins
 // 2. check the click
 // 3. find the index of pin (index of pin = index of card, cause the use the same appartments[i]
 // 4. set the index to renderCard
 // 5. add close
-var onUserPinClick = function () {
-  // choose all pins except main
-  var mapPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
-  // open card
-  var openCard = function () {
-
-    // // var index = ???
-    // var cardElement = renderCard(index);
-    // mapElement.insertBefore(cardElement, mapElement.querySelector('.map__filters-container'));
-  };
-  //
-  // var closeElement = document.querySelector('.popup__close');
-  // closeElement.addEventListener('click', function () {
-  //   cardElement.remove();
-  // });
-};
+// var onUserPinClick = function () {
+//   // choose all pins except main
+//   var mapPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+//   // open card
+//   var openCard = function () {
+//
+//     // // var index = ???
+//     // var cardElement = renderCard(index);
+//     // mapElement.insertBefore(cardElement, mapElement.querySelector('.map__filters-container'));
+//   };
+//   //
+//   // var closeElement = document.querySelector('.popup__close');
+//   // closeElement.addEventListener('click', function () {
+//   //   cardElement.remove();
+//   // });
+// };
