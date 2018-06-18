@@ -97,10 +97,10 @@ var pushPins = function () {
   pinsContainerElement.appendChild(fragment);
 };
 
-var pushCard = function (pinItem) {
-  var cardElement = renderCard(pinItem);
-  mapElement.insertBefore(cardElement, mapElement.querySelector('.map__filters-container'));
-};
+// var pushCard = function (pinItem) {
+//   var cardElement = renderCard(pinItem);
+//   mapElement.insertBefore(cardElement, mapElement.querySelector('.map__filters-container'));
+// };
 
 //
 // Pin interaction with web site
@@ -117,7 +117,7 @@ var adForm = document.querySelector('.ad-form');
 var fieldsets = adForm.querySelectorAll('fieldset');
 var formAddress = adForm.querySelector('#address');
 var mapPinMainRect = mapPinMain.getBoundingClientRect();
-var popupCloseButton = mapElement.querySelector('.popup__close');
+// var popupCloseButton = mapElement.querySelector('.popup__close');
 
 var disableFieldsets = function (boolean) {
   for (var i = 0; i < fieldsets.length; i++) {
