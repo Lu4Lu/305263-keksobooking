@@ -85,10 +85,15 @@ var renderCard = function (accomodation) {
 
   cardElement.querySelector('.popup__avatar').src = accomodation.author.avatar;
 
+  // close card by mouse click on setupClose
+  cardElement.querySelector('.popup__close').addEventListener('click', function () {
+    closePopup();
+  });
+
   return cardElement;
 };
 
-var pushPins = function () {
+var renderUserPins = function () {
   var fragment = document.createDocumentFragment();
   // for every item in array render pin
   window.appartments.forEach(function (appartment) {
@@ -97,7 +102,7 @@ var pushPins = function () {
   pinsContainerElement.appendChild(fragment);
 };
 
-// var pushCard = function (pinItem) {
+// var renderUserCards = function (pinItem) {
 //   var cardElement = renderCard(pinItem);
 //   mapElement.insertBefore(cardElement, mapElement.querySelector('.map__filters-container'));
 // };
@@ -106,8 +111,8 @@ var pushPins = function () {
 // Pin interaction with web site
 //
 //
-// var ESC_KEYCODE = 27;
-// var ENTER_KEYCODE = 13;
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
 
 var MAIN_PIN_WIDTH = 62;
 var MAIN_PIN_HEIGHT = 84;
@@ -117,8 +122,8 @@ var adForm = document.querySelector('.ad-form');
 var fieldsets = adForm.querySelectorAll('fieldset');
 var formAddress = adForm.querySelector('#address');
 var mapPinMainRect = mapPinMain.getBoundingClientRect();
-// var popupCloseButton = mapElement.querySelector('.popup__close');
 
+// disable fieldsets / inactive mode
 var disableFieldsets = function (boolean) {
   for (var i = 0; i < fieldsets.length; i++) {
     fieldsets[i].disabled = boolean;
@@ -143,8 +148,7 @@ var releaseMainPin = function () {
   disableFieldsets(false);
 
   // push pins
-  pushPins();
-  // mapPinMain.removeEventListener('mouseup', onMapPinMainMouseup);
+  renderUserPins();
 };
 
 // map unabling on mouseup
@@ -155,20 +159,26 @@ mapPinMain.addEventListener('mouseup', function () {
 // show matching card to every pin
 var cardElement;
 var showCardPopup = function (pinItem) {
-  closePopUp();
+  closePopup();
+  // renderUserCards (pinItem);
   cardElement = renderCard(pinItem);
   mapElement.insertBefore(cardElement, mapElement.querySelector('.map__filters-container'));
 };
 
 //
-var closePopUp = function () {
+var closePopup = function () {
   // if a card already exists - remove it
   if (cardElement) {
     cardElement.remove();
   }
 };
 
-// popupCloseButton.addEventListener();
+// close card by esc press
+mapElement.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    closePopup();
+  }
+});
 
 //
 // Form validation
