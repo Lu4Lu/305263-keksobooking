@@ -23,22 +23,21 @@ var renderPin = function (accomodation) {
   pinElement.style.top = accomodation.location.y - PIN_HEIGHT + 'px';
   pinElement.querySelector('img').src = accomodation.author.avatar;
   pinElement.querySelector('img').alt = accomodation.offer.title;
+
   // set event listener for every pin element
   pinElement.addEventListener('click', function () {
-    setCard(accomodation);
+    showCardPopup(accomodation);
   });
 
   return pinElement;
 
 };
 
-function renderPhotos(containerElement, photos) {
+var renderPhotos = function (containerElement, photos) {
   // 3. создать переменную photoTemplate (клонируем туда элемент фото)
   var photoTemplate = containerElement.querySelector('.popup__photo');
-
   // 4. очистить от детей photosElement ( photosElement.innerHTML = ''; )
   containerElement.innerHTML = '';
-
   // 5.  обход цикла offer.offer.photos
   photos.forEach(function (photo) {
     // 6. в цикле клонируем photoTemplate
@@ -46,14 +45,12 @@ function renderPhotos(containerElement, photos) {
     // console.log(photo);
     // 7. задаем src
     photoElement.src = photo;
-    // console.log(photoElement);
-
     // 8. делаем append в photosElement
     containerElement.appendChild(photoElement);
   });
-}
+};
 
-function renderFeatures(containerElement, features) {
+var renderFeatures = function (containerElement, features) {
   // 2. clean it
   containerElement.innerHTML = '';
   // 4. start cycle for ... clone template element
@@ -65,7 +62,7 @@ function renderFeatures(containerElement, features) {
     // 6. append element
     containerElement.appendChild(featureElement);
   });
-}
+};
 
 var renderCard = function (accomodation) {
 
@@ -120,6 +117,7 @@ var adForm = document.querySelector('.ad-form');
 var fieldsets = adForm.querySelectorAll('fieldset');
 var formAddress = adForm.querySelector('#address');
 var mapPinMainRect = mapPinMain.getBoundingClientRect();
+var popupCloseButton = mapElement.querySelector('.popup__close');
 
 var disableFieldsets = function (boolean) {
   for (var i = 0; i < fieldsets.length; i++) {
@@ -135,7 +133,7 @@ var setAddress = function () {
   formAddress.value = mainPinX + ', ' + mainPinY;
 };
 
-// functions start on main pin release
+// actions on main pin release
 var releaseMainPin = function () {
   // unable map
   mapElement.classList.remove('map--faded');
@@ -146,40 +144,83 @@ var releaseMainPin = function () {
 
   // push pins
   pushPins();
-  mapPinMain.removeEventListener('mouseup', onMapPinMainMouseup);
+  // mapPinMain.removeEventListener('mouseup', onMapPinMainMouseup);
 };
 
 // map unabling on mouseup
-var onMapPinMainMouseup = function () {
+mapPinMain.addEventListener('mouseup', function () {
   releaseMainPin();
+});
+
+// show matching card to every pin
+var cardElement;
+var showCardPopup = function (pinItem) {
+  closePopUp();
+  cardElement = renderCard(pinItem);
+  mapElement.insertBefore(cardElement, mapElement.querySelector('.map__filters-container'));
 };
-mapPinMain.addEventListener('mouseup', onMapPinMainMouseup);
 
-var setCard = function (accomodation) {
-
-  pushCard(accomodation);
-  // cardElement = renderCard(accomodation);
-  // mapElement.insertBefore(cardElement, mapElement.querySelector('.map__filters-container'));
-};
-
-// 1. find all the pins
-// 2. check the click
-// 3. find the index of pin (index of pin = index of card, cause the use the same appartments[i]
-// 4. set the index to renderCard
-// 5. add close
-// var onUserPinClick = function () {
-//   // choose all pins except main
-//   var mapPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
-//   // open card
-//   var openCard = function () {
 //
-//     // // var index = ???
-//     // var cardElement = renderCard(index);
-//     // mapElement.insertBefore(cardElement, mapElement.querySelector('.map__filters-container'));
-//   };
-//   //
-//   // var closeElement = document.querySelector('.popup__close');
-//   // closeElement.addEventListener('click', function () {
-//   //   cardElement.remove();
-//   // });
-// };
+var closePopUp = function () {
+  // if a card already exists - remove it
+  if (cardElement) {
+    cardElement.remove();
+  }
+};
+
+// popupCloseButton.addEventListener();
+
+//
+// Form validation
+//
+// var adFormTitle = adForm.querySelector('#title');
+// var adFormPrice = adForm.querySelector('#price');
+// var adFormImages = adForm.querySelector('#images');
+// var adFormRoomNumber = adForm.querySelector('#room_number');
+// var adFormCapacity = adForm.querySelector('#capacity');
+//
+// // validity check for the title
+// adFormTitle.addEventListener('input', function (evt) {
+//   var target = evt.target;
+//   if (target.value.length < 10) {
+//     target.setCustomValidity('Заголовок должен состоять минимум из 10-ти символов.');
+//   } else if (target.value.length > 50) {
+//     target.setCustomValidity('Заголовок не должен превышать 50-ти символов.');
+//   } else if (!target.value) {
+//     target.setCustomValidity('Напишите заголово.');
+//   } else {
+//     target.setCustomValidity('');
+//   }
+// });
+//
+// // validity check for the price
+// adFormPrice.addEventListener('input', function (evt) {
+//   var target = evt.target;
+//   if (target.value < 1000) {
+//     target.setCustomValidity('Цена не может быть меньше 0.');
+//   } else if (target.value > 100000) {
+//     target.setCustomValidity('Цена не может быть выше 100000.');
+//   } else if (!target.value) {
+//     target.setCustomValidity('Укажите цену.');
+//   } else {
+//     target.setCustomValidity('');
+//   }
+// });
+//
+// // validity check for the accomodation images
+// adFormImages.addEventListener('input', function (evt) {
+//   var target = evt.target;
+//   if (!target.value) {
+//     target.setCustomValidity('Загрузие фотографии жилья.');
+//   } else {
+//     target.setCustomValidity('');
+//   }
+// });
+//
+// // validity check for the room number to capacity match
+// adFormRoomNumber.addEventListener('input', function (evt) {
+//   var target = evt.target;
+//   if (target.value = 1) {
+//
+//   }
+// });
