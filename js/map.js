@@ -112,7 +112,6 @@ var renderUserPins = function () {
 //
 //
 var ESC_KEYCODE = 27;
-var ENTER_KEYCODE = 13;
 
 var MAIN_PIN_WIDTH = 62;
 var MAIN_PIN_HEIGHT = 84;
@@ -179,58 +178,3 @@ mapElement.addEventListener('keydown', function (evt) {
     closePopup();
   }
 });
-
-//
-// Form validation
-//
-// var adFormTitle = adForm.querySelector('#title');
-// var adFormPrice = adForm.querySelector('#price');
-// var adFormImages = adForm.querySelector('#images');
-// var adFormRoomNumber = adForm.querySelector('#room_number');
-// var adFormCapacity = adForm.querySelector('#capacity');
-//
-// // validity check for the title
-// adFormTitle.addEventListener('input', function (evt) {
-//   var target = evt.target;
-//   if (target.value.length < 10) {
-//     target.setCustomValidity('Заголовок должен состоять минимум из 10-ти символов.');
-//   } else if (target.value.length > 50) {
-//     target.setCustomValidity('Заголовок не должен превышать 50-ти символов.');
-//   } else if (!target.value) {
-//     target.setCustomValidity('Напишите заголово.');
-//   } else {
-//     target.setCustomValidity('');
-//   }
-// });
-//
-// // validity check for the price
-// adFormPrice.addEventListener('input', function (evt) {
-//   var target = evt.target;
-//   if (target.value < 1000) {
-//     target.setCustomValidity('Цена не может быть меньше 0.');
-//   } else if (target.value > 100000) {
-//     target.setCustomValidity('Цена не может быть выше 100000.');
-//   } else if (!target.value) {
-//     target.setCustomValidity('Укажите цену.');
-//   } else {
-//     target.setCustomValidity('');
-//   }
-// });
-//
-// // validity check for the accomodation images
-// adFormImages.addEventListener('input', function (evt) {
-//   var target = evt.target;
-//   if (!target.value) {
-//     target.setCustomValidity('Загрузие фотографии жилья.');
-//   } else {
-//     target.setCustomValidity('');
-//   }
-// });
-//
-// // validity check for the room number to capacity match
-// adFormRoomNumber.addEventListener('input', function (evt) {
-//   var target = evt.target;
-//   if (target.value = 1) {
-//
-//   }
-// });
