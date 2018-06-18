@@ -1,7 +1,9 @@
 'use strict';
+var PIN_HEIGHT = 70;
+var PIN_WIDTH = 50;
 
 var mapElement = document.querySelector('.map');
-mapElement.classList.remove('map--faded');
+// mapElement.classList.remove('map--faded');
 
 var pinsContainerElement = mapElement.querySelector('.map__pins');
 
@@ -14,16 +16,15 @@ var similarCardTemplate = document.querySelector('template')
   .querySelector('.map__card');
 
 
-var renderPin = function (accomodation) {
-
-  var PIN_HEIGHT = 70;
-  var PIN_WIDTH = 50;
+var renderPin = function (accomodation, i) {
 
   var pinElement = pinTemplate.cloneNode(true);
   pinElement.style.left = accomodation.location.x - PIN_WIDTH / 2 + 'px';
   pinElement.style.top = accomodation.location.y - PIN_HEIGHT + 'px';
   pinElement.querySelector('img').src = accomodation.author.avatar;
   pinElement.querySelector('img').alt = accomodation.offer.title;
+  pinElement.dataset.index = i;
+  pinElement.children[0].dataset.index = i;
 
   return pinElement;
 
@@ -88,15 +89,88 @@ var renderCard = function (accomodation) {
   return cardElement;
 };
 
-var fragment = document.createDocumentFragment();
+var pushPins = function () {
+  var fragment = document.createDocumentFragment();
+  // for every item in array render pin
+  window.appartments.forEach(function (appartment) {
+    fragment.appendChild(renderPin(appartment));
+  });
+  pinsContainerElement.appendChild(fragment);
+};
 
-// for every item in array render pin
-window.appartments.forEach(function (appartment) {
-  fragment.appendChild(renderPin(appartment));
-});
+var pushCard = function (pinItem) {
+  var cardElement = renderCard(pinItem);
+  mapElement.insertBefore(cardElement, mapElement.querySelector('.map__filters-container'));
+};
 
-var cardElement = renderCard(window.appartments[0]);
+//
+// Pin interaction with web site
+//
+//
+// var ESC_KEYCODE = 27;
+// var ENTER_KEYCODE = 13;
 
-pinsContainerElement.appendChild(fragment);
-mapElement.insertBefore(cardElement, mapElement.querySelector('.map__filters-container'));
+var mapPinMain = mapElement.querySelector('.map__pin--main');
+var adForm = document.querySelector('.ad-form');
+var fieldsets = adForm.querySelectorAll('fieldset');
+var formAddress = adForm.querySelector('#address');
+var mapPinMainRect = mapPinMain.getBoundingClientRect();
 
+var disableFieldsets = function () {
+  for (var i = 0; i < fieldsets.length; i++) {
+    fieldsets[i].disabled = true;
+  }
+};
+
+// set address from main pin
+var setAddress = function () {
+  var mainPinX = Math.round(mapPinMainRect.x + mapPinMainRect.width / 2);
+  var mainPinY = mapPinMainRect.y + mapPinMainRect.height;
+  formAddress.value = mainPinX + ', ' + mainPinY;
+};
+
+// functions start on main pin release
+var releaseMainPin = function () {
+  // unable map
+  mapElement.classList.remove('map--faded');
+  adForm.classList.remove('ad-form--disabled');
+
+  disableFieldsets();
+  setAddress();
+
+  // push pins
+  pushPins();
+  mapPinMain.removeEventListener('mouseup', onMapPinMainMouseup);
+  pinsContainerElement.addEventListener('click', onUserPinClick);
+};
+
+// map unabling on mouseup
+var onMapPinMainMouseup = function () {
+  releaseMainPin();
+};
+mapPinMain.addEventListener('mouseup', onMapPinMainMouseup);
+
+//
+// need to get the index of the pin %( Help!
+//
+// 1. find all the pins
+// 2. check the click
+// 3. find the index of pin (index of pin = index of card, cause the use the same appartments[i]
+// 4. set the index to renderCard
+// 5. add close
+var onUserPinClick = function () {
+  // choose all pins except main
+  var mapPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+  // open card
+  var openCard = function () {
+
+    // // var index = ???
+    // var cardElement = renderCard(index);
+    // mapElement.insertBefore(cardElement, mapElement.querySelector('.map__filters-container'));
+  };
+  //
+  // var closeElement = document.querySelector('.popup__close');
+  // closeElement.addEventListener('click', function () {
+  //   cardElement.remove();
+  // });
+};
