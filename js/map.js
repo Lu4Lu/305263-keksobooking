@@ -1,3 +1,4 @@
+/* eslint-disable */
 'use strict';
 var PIN_HEIGHT = 70;
 var PIN_WIDTH = 50;
@@ -85,10 +86,15 @@ var renderCard = function (accomodation) {
 
   cardElement.querySelector('.popup__avatar').src = accomodation.author.avatar;
 
+  // close card by mouse click on setupClose
+  cardElement.querySelector('.popup__close').addEventListener('click', function () {
+    closePopup();
+  });
+
   return cardElement;
 };
 
-var pushPins = function () {
+var renderUserPins = function () {
   var fragment = document.createDocumentFragment();
   // for every item in array render pin
   window.appartments.forEach(function (appartment) {
@@ -97,17 +103,16 @@ var pushPins = function () {
   pinsContainerElement.appendChild(fragment);
 };
 
-// var pushCard = function (pinItem) {
+// var renderUserCards = function (pinItem) {
 //   var cardElement = renderCard(pinItem);
 //   mapElement.insertBefore(cardElement, mapElement.querySelector('.map__filters-container'));
 // };
 
-//
+// ************************************
 // Pin interaction with web site
 //
 //
-// var ESC_KEYCODE = 27;
-// var ENTER_KEYCODE = 13;
+var ESC_KEYCODE = 27;
 
 var MAIN_PIN_WIDTH = 62;
 var MAIN_PIN_HEIGHT = 84;
@@ -117,8 +122,8 @@ var adForm = document.querySelector('.ad-form');
 var fieldsets = adForm.querySelectorAll('fieldset');
 var formAddress = adForm.querySelector('#address');
 var mapPinMainRect = mapPinMain.getBoundingClientRect();
-// var popupCloseButton = mapElement.querySelector('.popup__close');
 
+// disable fieldsets / inactive mode
 var disableFieldsets = function (boolean) {
   for (var i = 0; i < fieldsets.length; i++) {
     fieldsets[i].disabled = boolean;
@@ -143,8 +148,7 @@ var releaseMainPin = function () {
   disableFieldsets(false);
 
   // push pins
-  pushPins();
-  // mapPinMain.removeEventListener('mouseup', onMapPinMainMouseup);
+  renderUserPins();
 };
 
 // map unabling on mouseup
@@ -155,72 +159,154 @@ mapPinMain.addEventListener('mouseup', function () {
 // show matching card to every pin
 var cardElement;
 var showCardPopup = function (pinItem) {
-  closePopUp();
+  closePopup();
+  // renderUserCards (pinItem);
   cardElement = renderCard(pinItem);
   mapElement.insertBefore(cardElement, mapElement.querySelector('.map__filters-container'));
 };
 
 //
-var closePopUp = function () {
+var closePopup = function () {
   // if a card already exists - remove it
   if (cardElement) {
     cardElement.remove();
   }
 };
 
-// popupCloseButton.addEventListener();
+// close card by esc press
+mapElement.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    closePopup();
+  }
+});
 
-//
+// ************************************
 // Form validation
 //
-// var adFormTitle = adForm.querySelector('#title');
-// var adFormPrice = adForm.querySelector('#price');
-// var adFormImages = adForm.querySelector('#images');
-// var adFormRoomNumber = adForm.querySelector('#room_number');
-// var adFormCapacity = adForm.querySelector('#capacity');
+var inputTitle = adForm.querySelector('#title');
+var inputPrice = adForm.querySelector('#price');
+var inputImages = adForm.querySelector('#images');
+var selectType = adForm.querySelector('#type');
+
 //
-// // validity check for the title
-// adFormTitle.addEventListener('input', function (evt) {
-//   var target = evt.target;
-//   if (target.value.length < 10) {
-//     target.setCustomValidity('Заголовок должен состоять минимум из 10-ти символов.');
-//   } else if (target.value.length > 50) {
-//     target.setCustomValidity('Заголовок не должен превышать 50-ти символов.');
-//   } else if (!target.value) {
-//     target.setCustomValidity('Напишите заголово.');
-//   } else {
-//     target.setCustomValidity('');
-//   }
-// });
+// validity check for the title
+inputTitle.addEventListener('invalid', function (evt) {
+  if (inputTitle.validity.tooShort) {
+    inputTitle.setCustomValidity('Заголовок должен состоять минимум из 30-ти символов.');
+  } else if (inputTitle.validity.tooLong) {
+    inputTitle.setCustomValidity('Заголовок не должен превышать 100-a символов.');
+  } else if (inputTitle.validity.valueMissing) {
+    inputTitle.setCustomValidity('Напишите заголовок.');
+  } else {
+    inputTitle.setCustomValidity('');
+  }
+});
+// validity check for the title on fly
+inputTitle.addEventListener('input', function (evt) {
+  var target = evt.target;
+  if (target.value.length < 30) {
+    target.setCustomValidity('Заголовок должен состоять минимум из 30-ти символов.');
+  } else if (target.value.length > 100) {
+    target.setCustomValidity('Заголовок не должен превышать 100-a символов.');
+  } else {
+    target.setCustomValidity('');
+  }
+});
+
 //
-// // validity check for the price
-// adFormPrice.addEventListener('input', function (evt) {
-//   var target = evt.target;
-//   if (target.value < 1000) {
-//     target.setCustomValidity('Цена не может быть меньше 0.');
-//   } else if (target.value > 100000) {
-//     target.setCustomValidity('Цена не может быть выше 100000.');
-//   } else if (!target.value) {
-//     target.setCustomValidity('Укажите цену.');
-//   } else {
-//     target.setCustomValidity('');
-//   }
-// });
-//
-// // validity check for the accomodation images
-// adFormImages.addEventListener('input', function (evt) {
-//   var target = evt.target;
-//   if (!target.value) {
-//     target.setCustomValidity('Загрузие фотографии жилья.');
-//   } else {
-//     target.setCustomValidity('');
-//   }
-// });
-//
-// // validity check for the room number to capacity match
-// adFormRoomNumber.addEventListener('input', function (evt) {
-//   var target = evt.target;
-//   if (target.value = 1) {
-//
-//   }
-// });
+// validity check for the price
+inputPrice.addEventListener('invalid', function (evt) {
+  if (inputPrice.validity.rangeUnderflow) {
+    inputPrice.setCustomValidity('Цена не может быть меньше 0.');
+  } else if (inputPrice.validity.rangeOverflow) {
+    inputPrice.setCustomValidity('Цена не может быть выше 100000.');
+  } else if (inputPrice.validity.valueMissing) {
+    inputPrice.setCustomValidity('Укажите цену.');
+  } else {
+    inputPrice.setCustomValidity('');
+  }
+});
+// validity check for the price
+inputPrice.addEventListener('input', function (evt) {
+  var target = evt.target;
+  if (target.value.min < 0) {
+    target.setCustomValidity('Цена не может быть меньше 0.');
+  } else if (target.value.max > 1000000) {
+    target.setCustomValidity('Цена не может быть выше 100000.');
+  } else {
+    target.setCustomValidity('');
+  }
+});
+
+// validity check for the accomodation images
+inputImages.addEventListener('input', function (evt) {
+  var target = evt.target;
+  if (!target.value) {
+    target.setCustomValidity('Загрузие фотографии жилья.');
+  } else {
+    target.setCustomValidity('');
+  }
+});
+
+var MIN_PRICES = [0, 1000, 5000, 10000];
+
+// matching accomodation type with the price
+selectType.addEventListener('change', function () {
+  var minPrice = MIN_PRICES[selectType.selectedIndex];
+  // debugger;
+  inputPrice.placeholder = minPrice;
+  inputPrice.min = minPrice;
+});
+
+var selectTimein = document.querySelector('#timein');
+var selectTimeout = document.querySelector('#timeout');
+
+var matchTimeInOut = function (timein, timeout) {
+  if (timein.selectedIndex !== timeout.selectedIndex) {
+    timeout.selectedIndex = timein.selectedIndex;
+  }
+};
+
+selectTimein.addEventListener('change', function () {
+  matchTimeInOut(selectTimein, selectTimeout);
+});
+
+selectTimeout.addEventListener('change', function () {
+  matchTimeInOut(selectTimeout, selectTimein);
+});
+
+// rooms to capacity match:
+// one: [1] - means in 1 room can stay capacity[1] or 1 guest
+// two: [1, 2] - in 2 rooms capacity[1] (1 guest) and capacity[2] (2 guests)
+var ROOMS = [
+  [1],
+  [1, 2],
+  [0, 1, 2],
+  [3]
+];
+
+var selectRoomNumber = document.querySelector('#room_number');
+var selectCapacity = document.querySelector('#capacity');
+
+selectRoomNumber.addEventListener('change', function (evt) {
+  // disable all capacity option
+  for (var j = 0; j < selectCapacity.length; j++) {
+    selectCapacity[j].disabled = true;
+  }
+  // selectCapacity.forEach (function (option) {
+  //   console.log(option);
+  //   option.disabled = true;
+  //   debugger;
+  // });
+
+  // check the selected room option
+  var selectedRoomIndex = evt.target.selectedIndex;
+  // set matching amount of guests for the selected room option
+  var guests = ROOMS[selectedRoomIndex];
+  // disable another options
+  guests.forEach(function (guest) {
+    console.log(guest);
+    selectCapacity[guest].disabled = false;
+  });
+});
+
