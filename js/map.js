@@ -15,7 +15,7 @@ var similarCardTemplate = document.querySelector('template')
   .querySelector('.map__card');
 
 
-var renderPin = function (accomodation) {
+function renderPin(accomodation) {
   var pinElement = pinTemplate.cloneNode(true);
   pinElement.style.left = accomodation.location.x - PIN_WIDTH / 2 + 'px';
   pinElement.style.top = accomodation.location.y - PIN_HEIGHT + 'px';
@@ -27,9 +27,9 @@ var renderPin = function (accomodation) {
     showCardPopup(accomodation);
   });
   return pinElement;
-};
+}
 
-var renderPhotos = function (containerElement, photos) {
+function renderPhotos(containerElement, photos) {
   // 3. создать переменную photoTemplate (клонируем туда элемент фото)
   var photoTemplate = containerElement.querySelector('.popup__photo');
   // 4. очистить от детей photosElement ( photosElement.innerHTML = ''; )
@@ -44,9 +44,9 @@ var renderPhotos = function (containerElement, photos) {
     // 8. делаем append в photosElement
     containerElement.appendChild(photoElement);
   });
-};
+}
 
-var renderFeatures = function (containerElement, features) {
+function renderFeatures(containerElement, features) {
   // 2. clean it
   containerElement.innerHTML = '';
   // 4. start cycle for ... clone template element
@@ -58,9 +58,9 @@ var renderFeatures = function (containerElement, features) {
     // 6. append element
     containerElement.appendChild(featureElement);
   });
-};
+}
 
-var renderCard = function (accomodation) {
+function renderCard(accomodation) {
 
   var cardElement = similarCardTemplate.cloneNode(true);
 
@@ -82,23 +82,21 @@ var renderCard = function (accomodation) {
   cardElement.querySelector('.popup__avatar').src = accomodation.author.avatar;
 
   // close card by mouse click on setupClose
-  cardElement.querySelector('.popup__close').addEventListener('click', function () {
-    closePopup();
-  });
+  cardElement.querySelector('.popup__close').addEventListener('click', closePopup());
 
   return cardElement;
-};
+}
 
-var renderUserPins = function () {
+function renderUserPins() {
   var fragment = document.createDocumentFragment();
   // for every item in array render pin
   window.appartments.forEach(function (appartment) {
     fragment.appendChild(renderPin(appartment));
   });
   pinsContainerElement.appendChild(fragment);
-};
+}
 
-// var renderUserCards = function (pinItem) {
+// function renderUserCards(pinItem) {
 //   var cardElement = renderCard(pinItem);
 //   mapElement.insertBefore(cardElement, mapElement.querySelector('.map__filters-container'));
 // };
@@ -116,25 +114,25 @@ var mapPinMain = mapElement.querySelector('.map__pin--main');
 var adForm = document.querySelector('.ad-form');
 var fieldsets = adForm.querySelectorAll('fieldset');
 var formAddress = adForm.querySelector('#address');
-var mapPinMainRect = mapPinMain.getBoundingClientRect();
+// var mapPinMain = mapPinMain.querySelector('#address');
 
 // disable fieldsets / inactive mode
-var disableFieldsets = function (boolean) {
+function disableFieldsets(boolean) {
   for (var i = 0; i < fieldsets.length; i++) {
     fieldsets[i].disabled = boolean;
   }
-};
+}
 disableFieldsets(true);
 
 // set address from main pin
-var setAddress = function () {
-  var mainPinX = Math.round(mapPinMainRect.x + MAIN_PIN_WIDTH / 2);
-  var mainPinY = mapPinMainRect.y + MAIN_PIN_HEIGHT;
+function setAddress(evt) {
+  var mainPinX = Math.round(evt.clientX + MAIN_PIN_WIDTH / 2);
+  var mainPinY = evt.clientY + MAIN_PIN_HEIGHT;
   formAddress.value = mainPinX + ', ' + mainPinY;
-};
+}
 
 // actions on main pin release
-var releaseMainPin = function () {
+function releaseMainPin() {
   // unable map
   mapElement.classList.remove('map--faded');
   adForm.classList.remove('ad-form--disabled');
@@ -144,7 +142,7 @@ var releaseMainPin = function () {
 
   // push pins
   renderUserPins();
-};
+}
 
 // map unabling on mouseup
 mapPinMain.addEventListener('mouseup', function () {
@@ -153,20 +151,20 @@ mapPinMain.addEventListener('mouseup', function () {
 
 // show matching card to every pin
 var cardElement;
-var showCardPopup = function (pinItem) {
+function showCardPopup(pinItem) {
   closePopup();
   // renderUserCards (pinItem);
   cardElement = renderCard(pinItem);
   mapElement.insertBefore(cardElement, mapElement.querySelector('.map__filters-container'));
-};
+}
 
 //
-var closePopup = function () {
+function closePopup() {
   // if a card already exists - remove it
   if (cardElement) {
     cardElement.remove();
   }
-};
+}
 
 // close card by esc press
 mapElement.addEventListener('keydown', function (evt) {
@@ -185,8 +183,8 @@ mapElement.addEventListener('keydown', function (evt) {
   var roomNumberField = document.querySelector('#room_number');
   var capacityField = document.querySelector('#capacity');
 
-  roomsGuestValidation();
-  setMinimalPrice();
+  // roomsGuestValidation();
+  // setMinimalPrice();
 
   var typePriceDependency = {
     bungalo: '0',
@@ -228,3 +226,4 @@ mapElement.addEventListener('keydown', function (evt) {
   timeOutFiled.addEventListener('change', checkTime);
 })();
 
+//
