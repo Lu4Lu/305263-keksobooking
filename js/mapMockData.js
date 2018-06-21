@@ -1,6 +1,5 @@
 'use strict';
 (function mockUserData() {
-
   var MOCK_AVATARS = [
     'img/avatars/user01.png',
     'img/avatars/user02.png',
@@ -137,5 +136,4 @@
 
     window.appartments.push(accomodation);
   }
-  // console.log(window.appartments);
 })();
