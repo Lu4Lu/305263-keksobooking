@@ -1,10 +1,8 @@
-/* eslint-disable */
 'use strict';
 var PIN_HEIGHT = 70;
 var PIN_WIDTH = 50;
 
 var mapElement = document.querySelector('.map');
-// mapElement.classList.remove('map--faded');
 
 var pinsContainerElement = mapElement.querySelector('.map__pins');
 
@@ -18,7 +16,6 @@ var similarCardTemplate = document.querySelector('template')
 
 
 var renderPin = function (accomodation) {
-
   var pinElement = pinTemplate.cloneNode(true);
   pinElement.style.left = accomodation.location.x - PIN_WIDTH / 2 + 'px';
   pinElement.style.top = accomodation.location.y - PIN_HEIGHT + 'px';
@@ -29,9 +26,7 @@ var renderPin = function (accomodation) {
   pinElement.addEventListener('click', function () {
     showCardPopup(accomodation);
   });
-
   return pinElement;
-
 };
 
 var renderPhotos = function (containerElement, photos) {
@@ -182,131 +177,54 @@ mapElement.addEventListener('keydown', function (evt) {
 
 // ************************************
 // Form validation
-//
-var inputTitle = adForm.querySelector('#title');
-var inputPrice = adForm.querySelector('#price');
-var inputImages = adForm.querySelector('#images');
-var selectType = adForm.querySelector('#type');
+(function () {
+  var timeInField = document.querySelector('#timein');
+  var timeOutFiled = document.querySelector('#timeout');
+  var apartmentTypeField = document.querySelector('#type');
+  var priceField = document.querySelector('#price');
+  var roomNumberField = document.querySelector('#room_number');
+  var capacityField = document.querySelector('#capacity');
 
-//
-// validity check for the title
-inputTitle.addEventListener('invalid', function (evt) {
-  if (inputTitle.validity.tooShort) {
-    inputTitle.setCustomValidity('Заголовок должен состоять минимум из 30-ти символов.');
-  } else if (inputTitle.validity.tooLong) {
-    inputTitle.setCustomValidity('Заголовок не должен превышать 100-a символов.');
-  } else if (inputTitle.validity.valueMissing) {
-    inputTitle.setCustomValidity('Напишите заголовок.');
-  } else {
-    inputTitle.setCustomValidity('');
+  roomsGuestValidation();
+  setMinimalPrice();
+
+  var typePriceDependency = {
+    bungalo: '0',
+    flat: '1000',
+    house: '5000',
+    palace: '10000'
+  };
+
+  // price to apartment type dependency
+  function setMinimalPrice() {
+    priceField.min = typePriceDependency[apartmentTypeField.value];
+    priceField.placeholder = typePriceDependency[apartmentTypeField.value];
   }
-});
-// validity check for the title on fly
-inputTitle.addEventListener('input', function (evt) {
-  var target = evt.target;
-  if (target.value.length < 30) {
-    target.setCustomValidity('Заголовок должен состоять минимум из 30-ти символов.');
-  } else if (target.value.length > 100) {
-    target.setCustomValidity('Заголовок не должен превышать 100-a символов.');
-  } else {
-    target.setCustomValidity('');
+
+  // rooms to capacity dependencies
+  function roomsGuestValidation() {
+    if ((roomNumberField.value === '1') && (capacityField.value !== '1')) {
+      capacityField.setCustomValidity('В одном комнате может поселиться только один гость.');
+    } else if ((roomNumberField.value === '2') && (capacityField.value !== '1') && (capacityField.value !== '2')) {
+      capacityField.setCustomValidity('В двух комнатах не может поселиться больше 2 гостей.');
+    } else if ((roomNumberField.value === '3') && (capacityField.value !== '1') && (capacityField.value !== '2') && (capacityField.value !== '3')) {
+      capacityField.setCustomValidity('В двух комнатах не может поселиться больше 3 гостей.');
+    } else if ((roomNumberField.value === '100') && (capacityField.value !== '0')) {
+      capacityField.setCustomValidity('Сто комнат предназначены не для гостей!');
+    } else {
+      capacityField.setCustomValidity('');
+    }
   }
-});
 
-//
-// validity check for the price
-inputPrice.addEventListener('invalid', function (evt) {
-  if (inputPrice.validity.rangeUnderflow) {
-    inputPrice.setCustomValidity('Цена не может быть меньше 0.');
-  } else if (inputPrice.validity.rangeOverflow) {
-    inputPrice.setCustomValidity('Цена не может быть выше 100000.');
-  } else if (inputPrice.validity.valueMissing) {
-    inputPrice.setCustomValidity('Укажите цену.');
-  } else {
-    inputPrice.setCustomValidity('');
+  // matching check in time with check out time
+  function checkTime(evt) {
+    timeInField.value = timeOutFiled.value = evt.target.value;
   }
-});
-// validity check for the price
-inputPrice.addEventListener('input', function (evt) {
-  var target = evt.target;
-  if (target.value.min < 0) {
-    target.setCustomValidity('Цена не может быть меньше 0.');
-  } else if (target.value.max > 1000000) {
-    target.setCustomValidity('Цена не может быть выше 100000.');
-  } else {
-    target.setCustomValidity('');
-  }
-});
 
-// validity check for the accomodation images
-inputImages.addEventListener('input', function (evt) {
-  var target = evt.target;
-  if (!target.value) {
-    target.setCustomValidity('Загрузие фотографии жилья.');
-  } else {
-    target.setCustomValidity('');
-  }
-});
-
-var MIN_PRICES = [0, 1000, 5000, 10000];
-
-// matching accomodation type with the price
-selectType.addEventListener('change', function () {
-  var minPrice = MIN_PRICES[selectType.selectedIndex];
-  // debugger;
-  inputPrice.placeholder = minPrice;
-  inputPrice.min = minPrice;
-});
-
-var selectTimein = document.querySelector('#timein');
-var selectTimeout = document.querySelector('#timeout');
-
-var matchTimeInOut = function (timein, timeout) {
-  if (timein.selectedIndex !== timeout.selectedIndex) {
-    timeout.selectedIndex = timein.selectedIndex;
-  }
-};
-
-selectTimein.addEventListener('change', function () {
-  matchTimeInOut(selectTimein, selectTimeout);
-});
-
-selectTimeout.addEventListener('change', function () {
-  matchTimeInOut(selectTimeout, selectTimein);
-});
-
-// rooms to capacity match:
-// one: [1] - means in 1 room can stay capacity[1] or 1 guest
-// two: [1, 2] - in 2 rooms capacity[1] (1 guest) and capacity[2] (2 guests)
-var ROOMS = [
-  [1],
-  [1, 2],
-  [0, 1, 2],
-  [3]
-];
-
-var selectRoomNumber = document.querySelector('#room_number');
-var selectCapacity = document.querySelector('#capacity');
-
-selectRoomNumber.addEventListener('change', function (evt) {
-  // disable all capacity option
-  for (var j = 0; j < selectCapacity.length; j++) {
-    selectCapacity[j].disabled = true;
-  }
-  // selectCapacity.forEach (function (option) {
-  //   console.log(option);
-  //   option.disabled = true;
-  //   debugger;
-  // });
-
-  // check the selected room option
-  var selectedRoomIndex = evt.target.selectedIndex;
-  // set matching amount of guests for the selected room option
-  var guests = ROOMS[selectedRoomIndex];
-  // disable another options
-  guests.forEach(function (guest) {
-    console.log(guest);
-    selectCapacity[guest].disabled = false;
-  });
-});
+  apartmentTypeField.addEventListener('change', setMinimalPrice);
+  capacityField.addEventListener('change', roomsGuestValidation);
+  roomNumberField.addEventListener('change', roomsGuestValidation);
+  timeInField.addEventListener('change', checkTime);
+  timeOutFiled.addEventListener('change', checkTime);
+})();
 
