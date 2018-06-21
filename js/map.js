@@ -15,16 +15,16 @@ var similarCardTemplate = document.querySelector('template')
   .querySelector('.map__card');
 
 
-function renderPin(accomodation) {
+function renderPin(accommodation) {
   var pinElement = pinTemplate.cloneNode(true);
-  pinElement.style.left = accomodation.location.x - PIN_WIDTH / 2 + 'px';
-  pinElement.style.top = accomodation.location.y - PIN_HEIGHT + 'px';
-  pinElement.querySelector('img').src = accomodation.author.avatar;
-  pinElement.querySelector('img').alt = accomodation.offer.title;
+  pinElement.style.left = accommodation.location.x - PIN_WIDTH / 2 + 'px';
+  pinElement.style.top = accommodation.location.y - PIN_HEIGHT + 'px';
+  pinElement.querySelector('img').src = accommodation.author.avatar;
+  pinElement.querySelector('img').alt = accommodation.offer.title;
 
   // set event listener for every pin element
   pinElement.addEventListener('click', function () {
-    showCardPopup(accomodation);
+    showCardPopup(accommodation);
   });
   return pinElement;
 }
@@ -82,7 +82,7 @@ function renderCard(accomodation) {
   cardElement.querySelector('.popup__avatar').src = accomodation.author.avatar;
 
   // close card by mouse click on setupClose
-  cardElement.querySelector('.popup__close').addEventListener('click', closePopup());
+  cardElement.querySelector('.popup__close').addEventListener('click', closePopup);
 
   return cardElement;
 }
@@ -114,7 +114,6 @@ var mapPinMain = mapElement.querySelector('.map__pin--main');
 var adForm = document.querySelector('.ad-form');
 var fieldsets = adForm.querySelectorAll('fieldset');
 var formAddress = adForm.querySelector('#address');
-// var mapPinMain = mapPinMain.querySelector('#address');
 
 // disable fieldsets / inactive mode
 function disableFieldsets(boolean) {
@@ -126,18 +125,16 @@ disableFieldsets(true);
 
 // set address from main pin
 function setAddress(evt) {
-  var mainPinX = Math.round(evt.clientX + MAIN_PIN_WIDTH / 2);
-  var mainPinY = evt.clientY + MAIN_PIN_HEIGHT;
-  formAddress.value = mainPinX + ', ' + mainPinY;
+  formAddress.value = evt.clientX + (MAIN_PIN_WIDTH / 2) + ', ' + (evt.clientY + MAIN_PIN_HEIGHT);
 }
 
 // actions on main pin release
-function releaseMainPin() {
+function releaseMainPin(evt) {
   // unable map
   mapElement.classList.remove('map--faded');
   adForm.classList.remove('ad-form--disabled');
 
-  setAddress();
+  setAddress(evt);
   disableFieldsets(false);
 
   // push pins
@@ -145,9 +142,7 @@ function releaseMainPin() {
 }
 
 // map unabling on mouseup
-mapPinMain.addEventListener('mouseup', function () {
-  releaseMainPin();
-});
+mapPinMain.addEventListener('mouseup', releaseMainPin);
 
 // show matching card to every pin
 var cardElement;
@@ -183,15 +178,15 @@ mapElement.addEventListener('keydown', function (evt) {
   var roomNumberField = document.querySelector('#room_number');
   var capacityField = document.querySelector('#capacity');
 
-  // roomsGuestValidation();
-  // setMinimalPrice();
-
   var typePriceDependency = {
     bungalo: '0',
     flat: '1000',
     house: '5000',
     palace: '10000'
   };
+
+  roomsGuestValidation();
+  setMinimalPrice();
 
   // price to apartment type dependency
   function setMinimalPrice() {
@@ -225,5 +220,3 @@ mapElement.addEventListener('keydown', function (evt) {
   timeInField.addEventListener('change', checkTime);
   timeOutFiled.addEventListener('change', checkTime);
 })();
-
-//
