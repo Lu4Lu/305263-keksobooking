@@ -126,7 +126,7 @@ disableFieldsets(true);
 
 // set address from main pin
 function setAddress(evt) {
-  formAddressElement.value = (parseInt(mainPinElement.style.left, 10) + (MAIN_PIN_WIDTH / 2)) + ', ' + (parseInt(mainPinElement.style.left, 10)  + MAIN_PIN_HEIGHT);
+  formAddressElement.value = (parseInt(mainPinElement.style.left, 10) + (MAIN_PIN_WIDTH / 2)) + ', ' + (parseInt(mainPinElement.style.left, 10) + MAIN_PIN_HEIGHT);
 }
 
 // actions on main pin release
@@ -226,15 +226,50 @@ mapElement.addEventListener('keydown', function (evt) {
 //
 // Main pin dragging.
 //
-var MAX_TOP_Y = 130;
-var MAX_BOTTOM_Y = 630;
-var MAX_LEFT_X = 0;
-var MAX_RIGHT_X = 1200;
+// var MAX_TOP_Y = 130;
+// var MAX_BOTTOM_Y = 630;
+// var MAX_LEFT_X = 0;
+// var MAX_RIGHT_X = 1200;
 
-// var locX = parseInt(mainPinElement.style.left, 10);
-// mainPinElement.addEventListener('mousedown', function (evt) {
-//   evt.preventDefault();
-//
-//
-//   };
-// });
+(function () {
+
+  mainPinElement.addEventListener('mousedown', function (evt) {
+    evt.preventDefault();
+
+    var startCoords = {
+      x: evt.clientX,
+      y: evt.clientY
+    };
+
+    function onMouseMove(moveEvt) {
+      moveEvt.preventDefault();
+      // dragged = true;
+
+      var shift = {
+        x: startCoords.x - moveEvt.clientX,
+        y: startCoords.y - moveEvt.clientY
+      };
+
+      startCoords = {
+        x: moveEvt.clientX,
+        y: moveEvt.clientY
+      };
+
+      var newLeft = mainPinElement.offsetLeft - shift.y + 'px';
+      var newTop = mainPinElement.offsetTop - shift.x + 'px';
+
+      mainPinElement.style.top = newTop;
+      mainPinElement.style.left = newLeft;
+    }
+
+    function onMouseUp(upEvt) {
+      upEvt.preventDefault();
+
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+    }
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+  });
+})();
