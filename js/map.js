@@ -125,7 +125,7 @@ function disableFieldsets(boolean) {
 disableFieldsets(true);
 
 // set address from main pin
-function setAddress(evt) {
+function setAddress() {
   formAddressElement.value = (parseInt(mainPinElement.style.left, 10) + (MAIN_PIN_WIDTH / 2)) + ', ' + (parseInt(mainPinElement.style.left, 10) + MAIN_PIN_HEIGHT);
 }
 
