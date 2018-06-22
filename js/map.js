@@ -226,10 +226,11 @@ mapElement.addEventListener('keydown', function (evt) {
 //
 // Main pin dragging.
 //
-// var MAX_TOP_Y = 130;
-// var MAX_BOTTOM_Y = 630;
-// var MAX_LEFT_X = 0;
-// var MAX_RIGHT_X = 1200;
+var MAX_LEFT_X = 0;
+var MAX_RIGHT_X = 1200;
+var MAX_TOP_Y = 130;
+var MAX_BOTTOM_Y = 630;
+
 
 (function () {
 
@@ -255,11 +256,25 @@ mapElement.addEventListener('keydown', function (evt) {
         y: moveEvt.clientY
       };
 
-      var newLeft = mainPinElement.offsetLeft - shift.x + 'px';
-      var newTop = mainPinElement.offsetTop - shift.y + 'px';
+      var newLeft = mainPinElement.offsetLeft - shift.x;
+      var newTop = mainPinElement.offsetTop - shift.y;
 
-      mainPinElement.style.top = newTop;
-      mainPinElement.style.left = newLeft;
+      var rightBorder = MAX_RIGHT_X - MAIN_PIN_WIDTH;
+      var bottomBorder = MAX_BOTTOM_Y - MAIN_PIN_HEIGHT;
+
+      // check the borders for dragging
+      if (newLeft <= MAX_LEFT_X) {
+        mainPinElement.style.left = MAX_LEFT_X + 'px';
+      } else if (newLeft >= rightBorder) {
+        mainPinElement.style.left = rightBorder + 'px';
+      } else if (newTop <= MAX_TOP_Y) {
+        mainPinElement.style.top = MAX_TOP_Y + 'px';
+      } else if (newTop >= bottomBorder) {
+        mainPinElement.style.top = bottomBorder + 'px';
+      } else {
+        mainPinElement.style.top = newTop + 'px';
+        mainPinElement.style.left = newLeft + 'px';
+      }
     }
 
     function onMouseUp(upEvt) {
