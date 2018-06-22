@@ -60,26 +60,26 @@ function renderFeatures(containerElement, features) {
   });
 }
 
-function renderCard(accomodation) {
+function renderCard(accommodation) {
 
   var cardElement = similarCardTemplate.cloneNode(true);
 
-  cardElement.querySelector('.popup__title').textContent = accomodation.offer.title;
-  cardElement.querySelector('.popup__text--address').textContent = accomodation.offer.address;
-  cardElement.querySelector('.popup__text--price').textContent = accomodation.offer.price + '₽/ночь';
-  cardElement.querySelector('.popup__type').textContent = accomodation.offer.type;
-  cardElement.querySelector('.popup__text--capacity').textContent = accomodation.offer.rooms + '  комнаты для ' + accomodation.offer.guests + ' гостей.';
-  cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + accomodation.offer.checkin + ', выезд до ' + accomodation.offer.checkin + '.';
-  cardElement.querySelector('.popup__description').textContent = accomodation.offer.description;
+  cardElement.querySelector('.popup__title').textContent = accommodation.offer.title;
+  cardElement.querySelector('.popup__text--address').textContent = accommodation.offer.address;
+  cardElement.querySelector('.popup__text--price').textContent = accommodation.offer.price + '₽/ночь';
+  cardElement.querySelector('.popup__type').textContent = accommodation.offer.type;
+  cardElement.querySelector('.popup__text--capacity').textContent = accommodation.offer.rooms + '  комнаты для ' + accommodation.offer.guests + ' гостей.';
+  cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + accommodation.offer.checkin + ', выезд до ' + accommodation.offer.checkin + '.';
+  cardElement.querySelector('.popup__description').textContent = accommodation.offer.description;
 
   var featuresContainerElement = cardElement.querySelector('.popup__features');
-  renderFeatures(featuresContainerElement, accomodation.offer.features);
+  renderFeatures(featuresContainerElement, accommodation.offer.features);
 
   // 1. Создать функцию добавления фоток (передаем туда newPopupElement и список фотографий)
   var photosContainerElement = cardElement.querySelector('.popup__photos');
-  renderPhotos(photosContainerElement, accomodation.offer.photos);
+  renderPhotos(photosContainerElement, accommodation.offer.photos);
 
-  cardElement.querySelector('.popup__avatar').src = accomodation.author.avatar;
+  cardElement.querySelector('.popup__avatar').src = accommodation.author.avatar;
 
   // close card by mouse click on setupClose
   cardElement.querySelector('.popup__close').addEventListener('click', closePopup);
@@ -90,8 +90,8 @@ function renderCard(accomodation) {
 function renderUserPins() {
   var fragment = document.createDocumentFragment();
   // for every item in array render pin
-  window.appartments.forEach(function (appartment) {
-    fragment.appendChild(renderPin(appartment));
+  window.appartments.forEach(function (apartment) {
+    fragment.appendChild(renderPin(apartment));
   });
   pinsContainerElement.appendChild(fragment);
 }
@@ -110,29 +110,30 @@ var ESC_KEYCODE = 27;
 var MAIN_PIN_WIDTH = 62;
 var MAIN_PIN_HEIGHT = 84;
 
-var mapPinMain = mapElement.querySelector('.map__pin--main');
-var adForm = document.querySelector('.ad-form');
-var fieldsets = adForm.querySelectorAll('fieldset');
-var formAddress = adForm.querySelector('#address');
+var mainPinElement = mapElement.querySelector('.map__pin--main');
+var adFormContainerElement = document.querySelector('.ad-form');
+var fieldsetElement = adFormContainerElement.querySelectorAll('fieldset');
+var formAddressElement = adFormContainerElement.querySelector('#address');
 
-// disable fieldsets / inactive mode
+// disable fieldsetElement / inactive mode
 function disableFieldsets(boolean) {
-  for (var i = 0; i < fieldsets.length; i++) {
-    fieldsets[i].disabled = boolean;
+  for (var i = 0; i < fieldsetElement.length; i++) {
+    fieldsetElement[i].disabled = boolean;
   }
 }
+
 disableFieldsets(true);
 
 // set address from main pin
 function setAddress(evt) {
-  formAddress.value = evt.clientX + (MAIN_PIN_WIDTH / 2) + ', ' + (evt.clientY + MAIN_PIN_HEIGHT);
+  formAddressElement.value = (parseInt(mainPinElement.style.left, 10) + (MAIN_PIN_WIDTH / 2)) + ', ' + (parseInt(mainPinElement.style.left, 10)  + MAIN_PIN_HEIGHT);
 }
 
 // actions on main pin release
 function releaseMainPin(evt) {
   // unable map
   mapElement.classList.remove('map--faded');
-  adForm.classList.remove('ad-form--disabled');
+  adFormContainerElement.classList.remove('ad-form--disabled');
 
   setAddress(evt);
   disableFieldsets(false);
@@ -142,10 +143,11 @@ function releaseMainPin(evt) {
 }
 
 // map unabling on mouseup
-mapPinMain.addEventListener('mouseup', releaseMainPin);
+mainPinElement.addEventListener('mouseup', releaseMainPin);
 
 // show matching card to every pin
 var cardElement;
+
 function showCardPopup(pinItem) {
   closePopup();
   // renderUserCards (pinItem);
@@ -220,3 +222,19 @@ mapElement.addEventListener('keydown', function (evt) {
   timeInField.addEventListener('change', checkTime);
   timeOutFiled.addEventListener('change', checkTime);
 })();
+
+//
+// Main pin dragging.
+//
+var MAX_TOP_Y = 130;
+var MAX_BOTTOM_Y = 630;
+var MAX_LEFT_X = 0;
+var MAX_RIGHT_X = 1200;
+
+// var locX = parseInt(mainPinElement.style.left, 10);
+// mainPinElement.addEventListener('mousedown', function (evt) {
+//   evt.preventDefault();
+//
+//
+//   };
+// });
