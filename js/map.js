@@ -255,8 +255,8 @@ mapElement.addEventListener('keydown', function (evt) {
         y: moveEvt.clientY
       };
 
-      var newLeft = mainPinElement.offsetLeft - shift.y + 'px';
-      var newTop = mainPinElement.offsetTop - shift.x + 'px';
+      var newLeft = mainPinElement.offsetLeft - shift.x + 'px';
+      var newTop = mainPinElement.offsetTop - shift.y + 'px';
 
       mainPinElement.style.top = newTop;
       mainPinElement.style.left = newLeft;
