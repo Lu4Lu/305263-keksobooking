@@ -226,55 +226,43 @@ mapElement.addEventListener('keydown', function (evt) {
 //
 // Main pin dragging.
 //
-var MAX_LEFT_X = 0;
-var MAX_RIGHT_X = 1200;
-var MAX_TOP_Y = 130;
-var MAX_BOTTOM_Y = 630;
-
+var MAX_MAP_LEFT = 0;
+var MAX_MAP_TOP = 130;
+var MAX_MAP_BOTTOM = 630;
 
 (function () {
 
   mainPinElement.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
 
-    var startCoords = {
-      x: evt.clientX,
-      y: evt.clientY
+    var limitRect = {
+      top: MAX_MAP_TOP - mainPinElement.clientHeight,
+      bottom: MAX_MAP_BOTTOM - mainPinElement.clientHeight,
+      left: MAX_MAP_LEFT,
+      right: mapElement.clientWidth - mainPinElement.clientWidth
     };
+
+    var mapShiftLeft = mapElement.getBoundingClientRect().left;
 
     function onMouseMove(moveEvt) {
       moveEvt.preventDefault();
-      // dragged = true;
 
-      var shift = {
-        x: startCoords.x - moveEvt.clientX,
-        y: startCoords.y - moveEvt.clientY
-      };
+      // вычитаем размеры чтобы курсор был всегда по центру. иначе будет баг перепрыгивания на краях left и top
+      var top = moveEvt.pageY - mainPinElement.clientHeight / 2;
+      var left = moveEvt.pageX - mainPinElement.clientWidth / 2 - mapShiftLeft;
 
-      startCoords = {
-        x: moveEvt.clientX,
-        y: moveEvt.clientY
-      };
-
-      var newLeft = mainPinElement.offsetLeft - shift.x;
-      var newTop = mainPinElement.offsetTop - shift.y;
-
-      var rightBorder = MAX_RIGHT_X - MAIN_PIN_WIDTH;
-      var bottomBorder = MAX_BOTTOM_Y - MAIN_PIN_HEIGHT;
-
-      // check the borders for dragging
-      if (newLeft <= MAX_LEFT_X) {
-        mainPinElement.style.left = MAX_LEFT_X + 'px';
-      } else if (newLeft >= rightBorder) {
-        mainPinElement.style.left = rightBorder + 'px';
-      } else if (newTop <= MAX_TOP_Y) {
-        mainPinElement.style.top = MAX_TOP_Y + 'px';
-      } else if (newTop >= bottomBorder) {
-        mainPinElement.style.top = bottomBorder + 'px';
-      } else {
-        mainPinElement.style.top = newTop + 'px';
-        mainPinElement.style.left = newLeft + 'px';
+      if (top <= limitRect.top) {
+        top = limitRect.top;
+      } else if (top >= limitRect.bottom) {
+        top = limitRect.bottom;
       }
+      if (left <= limitRect.left) {
+        left = limitRect.left;
+      } else if (left >= limitRect.right) {
+        left = limitRect.right;
+      }
+      mainPinElement.style.top = top + 'px';
+      mainPinElement.style.left = left + 'px';
     }
 
     function onMouseUp(upEvt) {
