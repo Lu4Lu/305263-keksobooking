@@ -2,6 +2,9 @@
 // ************************************
 // Form validation
 (function () {
+  var MAIN_PIN_WIDTH = 62;
+  var MAIN_PIN_HEIGHT = 84;
+
   var timeInField = document.querySelector('#timein');
   var timeOutFiled = document.querySelector('#timeout');
   var apartmentTypeField = document.querySelector('#type');
@@ -10,7 +13,7 @@
   var capacityField = document.querySelector('#capacity');
   var adFormContainerElement = document.querySelector('.ad-form');
   var fieldsetElement = adFormContainerElement.querySelectorAll('fieldset');
-  // var formAddressElement = adFormContainerElement.querySelector('#address');
+  var formAddressElement = adFormContainerElement.querySelector('#address');
 
   var typePriceDependency = {
     bungalo: '0',
@@ -21,6 +24,12 @@
 
   roomsGuestValidation();
   setMinimalPrice();
+
+  // set address from main pin
+  function setAddress(mainPinElement) {
+    formAddressElement.value = (parseInt(mainPinElement.style.left, 10) + (MAIN_PIN_WIDTH / 2)) + ', '
+      + (parseInt(mainPinElement.style.left, 10) + MAIN_PIN_HEIGHT);
+  }
 
   // disable fieldsetElement / inactive mode
   function disableFieldsets(boolean) {
@@ -62,5 +71,6 @@
   timeInField.addEventListener('change', checkTime);
   timeOutFiled.addEventListener('change', checkTime);
 
+  window.setAddress = setAddress;
   window.disableFieldsets = disableFieldsets;
 })();

@@ -1,40 +1,30 @@
 'use strict';
 window.mapElement = document.querySelector('.map');
-
+var isMapActive = false;
 //
 // Pin interaction with web site
 //
 //
 var ESC_KEYCODE = 27;
 
-var MAIN_PIN_WIDTH = 62;
-var MAIN_PIN_HEIGHT = 84;
 
 var mainPinElement = window.mapElement.querySelector('.map__pin--main');
 var adFormContainerElement = document.querySelector('.ad-form');
-var fieldsetElement = adFormContainerElement.querySelectorAll('fieldset');
-var formAddressElement = adFormContainerElement.querySelector('#address');
-
-// set address from main pin
-function setAddress() {
-  formAddressElement.value = (parseInt(mainPinElement.style.left, 10) + (MAIN_PIN_WIDTH / 2)) + ', ' + (parseInt(mainPinElement.style.left, 10) + MAIN_PIN_HEIGHT);
-}
 
 // actions on main pin release
-function releaseMainPin(evt) {
-  // unable map
-  window.mapElement.classList.remove('map--faded');
-  adFormContainerElement.classList.remove('ad-form--disabled');
+function releaseMainPin() {
 
-  setAddress(evt);
-  disableFieldsets(false);
+  window.setAddress(mainPinElement);
+  if (isMapActive === false) {
+    // activate map and form
+    window.mapElement.classList.remove('map--faded');
+    adFormContainerElement.classList.remove('ad-form--disabled');
+    window.disableFieldsets(false);
+    window.renderUserPins();
+  }
 
-  // push pins
-  window.renderUserPins();
+  isMapActive = true;
 }
-
-// map unabling on mouseup
-mainPinElement.addEventListener('mouseup', releaseMainPin);
 
 // close card by esc press
 window.mapElement.addEventListener('keydown', function (evt) {
@@ -88,6 +78,7 @@ var MAX_MAP_BOTTOM = 630;
     function onMouseUp(upEvt) {
       upEvt.preventDefault();
 
+      releaseMainPin();
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
     }

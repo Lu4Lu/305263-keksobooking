@@ -15,13 +15,13 @@
     pinElement.querySelector('img').alt = accommodation.offer.title;
 
     // set event listener for every pin element
-    pinElement.addEventListener('click', function() {
+    pinElement.addEventListener('click', function () {
       window.showCardPopup(accommodation);
     });
     return pinElement;
   }
 
-  function renderUserPins () {
+  function renderUserPins() {
     var fragment = document.createDocumentFragment();
     // for every item in array render pin
     window.appartments.forEach(function (apartment) {
