@@ -7,7 +7,7 @@
   var pinsContainerElement = mapElement.querySelector('.map__pins');
   var pinTemplate = document.querySelector('template').content.querySelector('.map__pin');
 
-  window.renderPin = function (accommodation) {
+  function renderPin(accommodation) {
     var pinElement = pinTemplate.cloneNode(true);
     pinElement.style.left = accommodation.location.x - PIN_WIDTH / 2 + 'px';
     pinElement.style.top = accommodation.location.y - PIN_HEIGHT + 'px';
@@ -19,14 +19,16 @@
       window.showCardPopup(accommodation);
     });
     return pinElement;
-  };
+  }
 
-  window.renderUserPins = function () {
+  function renderUserPins () {
     var fragment = document.createDocumentFragment();
     // for every item in array render pin
     window.appartments.forEach(function (apartment) {
-      fragment.appendChild(window.renderPin(apartment));
+      fragment.appendChild(renderPin(apartment));
     });
     pinsContainerElement.appendChild(fragment);
-  };
+  }
+
+  window.renderUserPins = renderUserPins;
 })();
