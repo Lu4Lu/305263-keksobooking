@@ -1,13 +1,16 @@
 'use strict';
 // ************************************
 // Form validation
-(function form() {
+(function () {
   var timeInField = document.querySelector('#timein');
   var timeOutFiled = document.querySelector('#timeout');
   var apartmentTypeField = document.querySelector('#type');
   var priceField = document.querySelector('#price');
   var roomNumberField = document.querySelector('#room_number');
   var capacityField = document.querySelector('#capacity');
+  var adFormContainerElement = document.querySelector('.ad-form');
+  var fieldsetElement = adFormContainerElement.querySelectorAll('fieldset');
+  // var formAddressElement = adFormContainerElement.querySelector('#address');
 
   var typePriceDependency = {
     bungalo: '0',
@@ -18,6 +21,14 @@
 
   roomsGuestValidation();
   setMinimalPrice();
+
+  // disable fieldsetElement / inactive mode
+  function disableFieldsets(boolean) {
+    for (var i = 0; i < fieldsetElement.length; i++) {
+      fieldsetElement[i].disabled = boolean;
+    }
+  }
+  disableFieldsets(true);
 
   // price to apartment type dependency
   function setMinimalPrice() {
@@ -50,4 +61,6 @@
   roomNumberField.addEventListener('change', roomsGuestValidation);
   timeInField.addEventListener('change', checkTime);
   timeOutFiled.addEventListener('change', checkTime);
+
+  window.disableFieldsets = disableFieldsets;
 })();

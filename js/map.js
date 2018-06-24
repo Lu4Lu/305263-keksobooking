@@ -15,14 +15,6 @@ var adFormContainerElement = document.querySelector('.ad-form');
 var fieldsetElement = adFormContainerElement.querySelectorAll('fieldset');
 var formAddressElement = adFormContainerElement.querySelector('#address');
 
-// disable fieldsetElement / inactive mode
-function disableFieldsets(boolean) {
-  for (var i = 0; i < fieldsetElement.length; i++) {
-    fieldsetElement[i].disabled = boolean;
-  }
-}
-disableFieldsets(true);
-
 // set address from main pin
 function setAddress() {
   formAddressElement.value = (parseInt(mainPinElement.style.left, 10) + (MAIN_PIN_WIDTH / 2)) + ', ' + (parseInt(mainPinElement.style.left, 10) + MAIN_PIN_HEIGHT);
@@ -43,23 +35,6 @@ function releaseMainPin(evt) {
 
 // map unabling on mouseup
 mainPinElement.addEventListener('mouseup', releaseMainPin);
-
-// show matching card to every pin
-var cardElement;
-window.showCardPopup = function (pinItem) {
-  window.closePopup();
-  // renderUserCards (pinItem);
-  cardElement = window.renderCard(pinItem);
-  window.mapElement.insertBefore(cardElement, window.mapElement.querySelector('.map__filters-container'));
-};
-
-//
-window.closePopup = function () {
-  // if a card already exists - remove it
-  if (cardElement) {
-    cardElement.remove();
-  }
-};
 
 // close card by esc press
 window.mapElement.addEventListener('keydown', function (evt) {
