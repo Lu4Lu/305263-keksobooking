@@ -12,7 +12,7 @@
   var capacityField = document.querySelector('#capacity');
   var fieldsetElement = adFormContainerElement.querySelectorAll('fieldset');
   var formAddressElement = adFormContainerElement.querySelector('#address');
-  var resetBtnElement = document.querySelector('.ad-form__reset');
+  // var resetBtnElement = document.querySelector('.ad-form__reset');
 
   // ************************************
   // Form validation
@@ -77,6 +77,8 @@
     evt.preventDefault();
     window.upload(new FormData(adFormContainerElement));
   });
+
+  // window.onError
 
   apartmentTypeField.addEventListener('change', setMinimalPrice);
   capacityField.addEventListener('change', roomsGuestValidation);
