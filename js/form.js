@@ -49,6 +49,11 @@
   function roomsGuestValidation() {
     if ((roomNumberField.value === '1') && (capacityField.value !== '1')) {
       capacityField.setCustomValidity('В одном комнате может поселиться только один гость.');
+      // capacityField.forEach(function (option) {
+      //   if (capacityField.value !== '1') {
+      //     capacityField[option].disabled = true;
+      //   }
+      // });
     } else if ((roomNumberField.value === '2') && (capacityField.value !== '1') && (capacityField.value !== '2')) {
       capacityField.setCustomValidity('В двух комнатах не может поселиться больше 2 гостей.');
     } else if ((roomNumberField.value === '3') && (capacityField.value !== '1') && (capacityField.value !== '2') && (capacityField.value !== '3')) {

@@ -21,14 +21,19 @@
     return pinElement;
   }
 
-  function renderUserPins() {
-    var fragment = document.createDocumentFragment();
-    // for every item in array render pin
-    window.appartments.forEach(function (apartment) {
-      fragment.appendChild(renderPin(apartment));
-    });
-    pinsContainerElement.appendChild(fragment);
-  }
+  window.load(function (serverItems) {
+    function renderUserPins() {
+      var fragment = document.createDocumentFragment();
+      // for every item in array render pin
+      // window.appartments.forEach(function (apartment) {
+      //   fragment.appendChild(renderPin(apartment));
+      // });
+      serverItems.forEach(function (serverItem) {
+        fragment.appendChild(renderPin(serverItem));
+      });
+      pinsContainerElement.appendChild(fragment);
+    }
+    window.renderUserPins = renderUserPins;
+  });
 
-  window.renderUserPins = renderUserPins;
 })();
