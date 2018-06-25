@@ -1,10 +1,10 @@
 'use strict';
 (function renderPinAndCard() {
-  var mapElement = document.querySelector('.map');
+  // var mapElement = document.querySelector('.map');
   var PIN_HEIGHT = 70;
   var PIN_WIDTH = 50;
 
-  var pinsContainerElement = mapElement.querySelector('.map__pins');
+  // var pinsContainerElement = mapElement.querySelector('.map__pins');
   var pinTemplate = document.querySelector('template').content.querySelector('.map__pin');
 
   function renderPin(accommodation) {
@@ -21,19 +21,14 @@
     return pinElement;
   }
 
-  window.load(function (serverItems) {
-    function renderUserPins() {
-      var fragment = document.createDocumentFragment();
-      // for every item in array render pin
-      // window.appartments.forEach(function (apartment) {
-      //   fragment.appendChild(renderPin(apartment));
-      // });
-      serverItems.forEach(function (serverItem) {
-        fragment.appendChild(renderPin(serverItem));
-      });
-      pinsContainerElement.appendChild(fragment);
-    }
-    window.renderUserPins = renderUserPins;
-  });
+  function renderUserPins() {
+    debugger;
+    var fragment = document.createDocumentFragment();
+    // for every item in array render pin
+    window.appartments.forEach(function (apartment) {
+      fragment.appendChild(renderPin(apartment));
+    });
+  }
+  window.renderUserPins = renderUserPins;
 
 })();

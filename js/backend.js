@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var loadURL = 'https://js.dump.academy/keksobooking/dat';
+  var loadURL = 'https://js.dump.academy/keksobooking/data';
   var uploadURL = 'https://js.dump.academy/keksobooking';
   var TIMEOUT = 10000;
 
@@ -17,31 +17,29 @@
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
-    // xhr.addEventListener('load', function () {
-    //   var error;
-    //   switch (xhr.status) {
-    //     case 200:
-    //       onLoad(xhr.response);
-    //       break;
-    //
-    //     case 400:
-    //       error = 'Неверный запрос';
-    //       break;
-    //     case 401:
-    //       error = 'Пользователь не авторизован';
-    //       break;
-    //     case 404:
-    //       error = 'Ничего не найдено';
-    //       break;
-    //
-    //     default:
-    //       error = 'Cтатус ответа: : ' + xhr.status + ' ' + xhr.statusText;
-    //   }
-    //
-    //   if (error) {
-    //     onError(error);
-    //   }
-    // });
+    xhr.addEventListener('load', function () {
+      var error;
+      switch (xhr.status) {
+        case 200:
+          onLoad(xhr.response);
+          break;
+        case 400:
+          error = 'Неверный запрос';
+          break;
+        case 401:
+          error = 'Пользователь не авторизован';
+          break;
+        case 404:
+          error = 'Ничего не найдено';
+          break;
+        default:
+          error = 'Cтатус ответа: : ' + xhr.status + ' ' + xhr.statusText;
+      }
+
+      if (error) {
+        onError(error);
+      }
+    });
 
     xhr.addEventListener('load', function () {
       switch (xhr.status) {
@@ -79,7 +77,7 @@
   }
   window.load = load;
 
-  function upload(data, onLoad, onError) {
+  function upload(data, onLoad) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
