@@ -13,6 +13,7 @@
   var fieldsetElement = adFormContainerElement.querySelectorAll('fieldset');
   var formAddressElement = adFormContainerElement.querySelector('#address');
   var resetElement = document.querySelector('.ad-form__reset');
+  window.succesMessageElement = document.querySelector('.success');
 
   // ************************************
   // Form validation
@@ -76,13 +77,13 @@
     adFormContainerElement.reset();
   }
 
-  // send file to server
-  adFormContainerElement.addEventListener('submit', function (evt) {
+  function onFormSubmit(evt) {
+    evt.preventDefault();
     window.upload(new FormData(adFormContainerElement), function () {
       resetForm();
     });
-    evt.preventDefault();
-  });
+    window.succesMessageElement.classList.remove('hidden');
+  }
 
   // reset the form
   resetElement.addEventListener('click', resetForm);
@@ -94,5 +95,6 @@
   timeOutFiled.addEventListener('change', checkTime);
 
   window.setAddress = setAddress;
+  window.onFormSubmit = onFormSubmit;
   window.disableFieldsets = disableFieldsets;
 })();

@@ -1,10 +1,12 @@
 'use strict';
-window.mapElement = document.querySelector('.map');
-var isMapActive = false;
 //
 // Pin interaction with web site
 //
 var ESC_KEYCODE = 27;
+window.mapElement = document.querySelector('.map');
+var mainPinElement = window.mapElement.querySelector('.map__pin--main');
+var adFormContainerElement = document.querySelector('.ad-form');
+var isMapActive = false;
 
 window.appartments = [];
 window.load(
@@ -13,9 +15,6 @@ window.load(
     },
     window.onError
 );
-
-var mainPinElement = window.mapElement.querySelector('.map__pin--main');
-var adFormContainerElement = document.querySelector('.ad-form');
 
 // actions on main pin release
 function releaseMainPin() {
@@ -35,6 +34,14 @@ function releaseMainPin() {
 window.mapElement.addEventListener('keydown', function (evt) {
   if (evt.keyCode === ESC_KEYCODE) {
     window.closePopup();
+  }
+});
+
+adFormContainerElement.addEventListener('submit', window.onFormSubmit, window.onError);
+
+document.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    window.succesMessageElement.classList.add('hidden');
   }
 });
 
