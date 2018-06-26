@@ -17,30 +17,6 @@
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
-    // xhr.addEventListener('load', function () {
-    //   var error;
-    //   switch (xhr.status) {
-    //     case 200:
-    //       onLoad(xhr.response);
-    //       break;
-    //     case 400:
-    //       error = 'Неверный запрос';
-    //       break;
-    //     case 401:
-    //       error = 'Пользователь не авторизован';
-    //       break;
-    //     case 404:
-    //       error = 'Ничего не найдено';
-    //       break;
-    //     default:
-    //       error = 'Cтатус ответа: : ' + xhr.status + ' ' + xhr.statusText;
-    //   }
-    //
-    //   if (error) {
-    //     onError(error);
-    //   }
-    // });
-
     xhr.addEventListener('load', function () {
       switch (xhr.status) {
         case httpStatusCodes.SUCCESS:
@@ -58,7 +34,6 @@
         case httpStatusCodes.SERVER_ERROR:
           onError('Внутренняя ошибка сервера');
           break;
-
         default:
           onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
       }
@@ -77,7 +52,7 @@
   }
   window.load = load;
 
-  function upload(data, onLoad) {
+  function upload(data, onLoad, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
@@ -93,19 +68,5 @@
     xhr.send(data);
   }
   window.upload = upload;
-
-  function onError(errorMessage) {
-    var node = document.createElement('div');
-    node.style = 'z-index: 100; margin-left: -150px; margin-top: -100px; text-align: center; background-color: red; border-radius: 10px; width: 300px; height: 200px; padding-top: 50px; color: #fff; box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.5);';
-    node.style.position = 'absolute';
-    node.style.left = '50%';
-    node.style.top = '50%';
-    node.style.fontSize = '20px';
-
-    node.textContent = 'Ошибка! ' + errorMessage;
-    document.body.insertAdjacentElement('afterbegin', node);
-  }
-  window.onError = onError;
-
 })();
 
