@@ -78,8 +78,6 @@
     window.upload(new FormData(adFormContainerElement));
   });
 
-  // window.onError
-
   apartmentTypeField.addEventListener('change', setMinimalPrice);
   capacityField.addEventListener('change', roomsGuestValidation);
   roomNumberField.addEventListener('change', roomsGuestValidation);
