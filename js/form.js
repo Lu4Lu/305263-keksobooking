@@ -78,7 +78,7 @@
 
   // send file to server
   adFormContainerElement.addEventListener('submit', function (evt) {
-    window.upload(new FormData(adFormContainerElement), function (response) {
+    window.upload(new FormData(adFormContainerElement), function () {
       resetForm();
     });
     evt.preventDefault();
