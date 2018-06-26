@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var loadURL = 'https://js.dump.academy/keksobooking/data';
+  var loadURL = 'https://js.dump.academy/keksobooking/dat';
   var uploadURL = 'https://js.dump.academy/keksobooking';
   var TIMEOUT = 10000;
 
@@ -46,7 +46,7 @@
     xhr.timeout = TIMEOUT;
 
     xhr.addEventListener('timeout', function () {
-      onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
+      window.onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     });
 
     xhr.open('GET', loadURL);
@@ -72,7 +72,7 @@
     });
 
     xhr.addEventListener('error', function () {
-      onError('Произошла ошибка соединения');
+      window.onError('Произошла ошибка соединения');
     });
 
     xhr.open('POST', uploadURL);

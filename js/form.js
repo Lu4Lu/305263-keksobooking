@@ -84,7 +84,6 @@
     evt.preventDefault();
   });
 
-
   // reset the form
   resetElement.addEventListener('click', resetForm);
 

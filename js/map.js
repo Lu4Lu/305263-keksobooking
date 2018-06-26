@@ -4,7 +4,6 @@ var isMapActive = false;
 //
 // Pin interaction with web site
 //
-//
 var ESC_KEYCODE = 27;
 
 window.appartments = [];
