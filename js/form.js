@@ -12,7 +12,7 @@
   var capacityField = document.querySelector('#capacity');
   var fieldsetElement = adFormContainerElement.querySelectorAll('fieldset');
   var formAddressElement = adFormContainerElement.querySelector('#address');
-  // var resetBtnElement = document.querySelector('.ad-form__reset');
+  var resetElement = document.querySelector('.ad-form__reset');
 
   // ************************************
   // Form validation
@@ -72,11 +72,21 @@
     timeInField.value = timeOutFiled.value = evt.target.value;
   }
 
+  function resetForm() {
+    adFormContainerElement.reset();
+  }
+
   // send file to server
   adFormContainerElement.addEventListener('submit', function (evt) {
+    window.upload(new FormData(adFormContainerElement), function (response) {
+      resetForm();
+    });
     evt.preventDefault();
-    window.upload(new FormData(adFormContainerElement));
   });
+
+
+  // reset the form
+  resetElement.addEventListener('click', resetForm);
 
   apartmentTypeField.addEventListener('change', setMinimalPrice);
   capacityField.addEventListener('change', roomsGuestValidation);

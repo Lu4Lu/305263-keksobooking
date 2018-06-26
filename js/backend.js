@@ -43,6 +43,8 @@
       onError('Произошла ошибка соединения');
     });
 
+    xhr.timeout = TIMEOUT;
+
     xhr.addEventListener('timeout', function () {
       onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     });
@@ -57,7 +59,16 @@
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
-      onLoad(xhr.response);
+      switch (xhr.status) {
+        case httpStatusCodes.SUCCESS:
+          onLoad(xhr.response);
+          break;
+        case httpStatusCodes.BAD_REQUEST:
+          onError('Неверный запрос');
+          break;
+        default:
+          onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
+      }
     });
 
     xhr.addEventListener('error', function () {
