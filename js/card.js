@@ -64,7 +64,6 @@
   var cardElement;
   function showCardPopup(pinItem) {
     closePopup();
-    // renderUserCards (pinItem);
     cardElement = window.renderCard(pinItem);
     window.mapElement.insertBefore(cardElement, window.mapElement.querySelector('.map__filters-container'));
   }

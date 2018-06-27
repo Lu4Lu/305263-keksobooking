@@ -83,7 +83,9 @@
 
   function onFormSubmit(evt) {
     evt.preventDefault();
-    window.upload(new FormData(adFormContainerElement), resetForm, window.onError);
+    window.upload(new FormData(adFormContainerElement), function () {
+      resetForm();
+    });
     showSuccessMessage();
   }
 
