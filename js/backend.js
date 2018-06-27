@@ -45,7 +45,7 @@
     });
 
     xhr.addEventListener('timeout', function () {
-      window.onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
+      onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     });
 
     xhr.open('GET', loadURL);
@@ -57,20 +57,15 @@
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
-      switch (xhr.status) {
-        case httpStatusCodes.SUCCESS:
-          onLoad(xhr.response);
-          break;
-        case httpStatusCodes.BAD_REQUEST:
-          onError('Неверный запрос');
-          break;
-        default:
-          onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
+      if (xhr.status === httpStatusCodes.SUCCESS) {
+        onLoad(xhr.response);
+      } else {
+        onError('Cтатус ответа: ' + xhr.status + ' ' + xhr.statusText);
       }
     });
 
     xhr.addEventListener('error', function () {
-      window.onError('Произошла ошибка соединения');
+      onError('Произошла ошибка соединения');
     });
 
     xhr.open('POST', uploadURL);

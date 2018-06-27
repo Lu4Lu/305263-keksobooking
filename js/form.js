@@ -13,7 +13,7 @@
   var fieldsetElement = adFormContainerElement.querySelectorAll('fieldset');
   var formAddressElement = adFormContainerElement.querySelector('#address');
   var resetElement = document.querySelector('.ad-form__reset');
-  window.succesMessageElement = document.querySelector('.success');
+  window.successMessageElement = document.querySelector('.success');
 
   // ************************************
   // Form validation
@@ -77,12 +77,14 @@
     adFormContainerElement.reset();
   }
 
+  function showSuccessMessage() {
+    window.successMessageElement.classList.remove('hidden');
+  }
+
   function onFormSubmit(evt) {
     evt.preventDefault();
-    window.upload(new FormData(adFormContainerElement), function () {
-      resetForm();
-    });
-    window.succesMessageElement.classList.remove('hidden');
+    window.upload(new FormData(adFormContainerElement), resetForm, window.onError);
+    showSuccessMessage();
   }
 
   // reset the form

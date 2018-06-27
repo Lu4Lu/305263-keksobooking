@@ -41,7 +41,7 @@ adFormContainerElement.addEventListener('submit', window.onFormSubmit, window.on
 
 document.addEventListener('keydown', function (evt) {
   if (evt.keyCode === ESC_KEYCODE) {
-    window.succesMessageElement.classList.add('hidden');
+    window.successMessageElement.classList.add('hidden');
   }
 });
 
