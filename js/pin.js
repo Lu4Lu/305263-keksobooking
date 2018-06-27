@@ -1,34 +1,55 @@
 'use strict';
-(function renderPinAndCard() {
-  var mapElement = document.querySelector('.map');
-  var PIN_HEIGHT = 70;
-  var PIN_WIDTH = 50;
+//
+// Main pin dragging.
+//
+(function () {
+  var MAX_MAP_LEFT = 0;
+  var MAX_MAP_TOP = 130;
+  var MAX_MAP_BOTTOM = 630;
 
-  var pinsContainerElement = mapElement.querySelector('.map__pins');
-  var pinTemplate = document.querySelector('template').content.querySelector('.map__pin');
+  var mainPinElement = document.querySelector('.map__pin--main');
+  mainPinElement.addEventListener('mousedown', function (evt) {
+    evt.preventDefault();
 
-  function renderPin(accommodation) {
-    var pinElement = pinTemplate.cloneNode(true);
-    pinElement.style.left = accommodation.location.x - PIN_WIDTH / 2 + 'px';
-    pinElement.style.top = accommodation.location.y - PIN_HEIGHT + 'px';
-    pinElement.querySelector('img').src = accommodation.author.avatar;
-    pinElement.querySelector('img').alt = accommodation.offer.title;
+    var limitRect = {
+      top: MAX_MAP_TOP - mainPinElement.clientHeight,
+      bottom: MAX_MAP_BOTTOM - mainPinElement.clientHeight,
+      left: MAX_MAP_LEFT,
+      right: window.mapElement.clientWidth - mainPinElement.clientWidth
+    };
 
-    // set event listener for every pin element
-    pinElement.addEventListener('click', function () {
-      window.showCardPopup(accommodation);
-    });
-    return pinElement;
-  }
+    var mapShiftLeft = window.mapElement.getBoundingClientRect().left;
 
-  function renderUserPins() {
-    var fragment = document.createDocumentFragment();
-    // for every item in array render pin
-    window.appartments.forEach(function (apartment) {
-      fragment.appendChild(renderPin(apartment));
-    });
-    pinsContainerElement.appendChild(fragment);
-  }
+    function onMouseMove(moveEvt) {
+      moveEvt.preventDefault();
 
-  window.renderUserPins = renderUserPins;
+      // вычитаем размеры чтобы курсор был всегда по центру. иначе будет баг перепрыгивания на краях left и top
+      var top = moveEvt.pageY - mainPinElement.clientHeight / 2;
+      var left = moveEvt.pageX - mainPinElement.clientWidth / 2 - mapShiftLeft;
+
+      if (top <= limitRect.top) {
+        top = limitRect.top;
+      } else if (top >= limitRect.bottom) {
+        top = limitRect.bottom;
+      }
+      if (left <= limitRect.left) {
+        left = limitRect.left;
+      } else if (left >= limitRect.right) {
+        left = limitRect.right;
+      }
+      mainPinElement.style.top = top + 'px';
+      mainPinElement.style.left = left + 'px';
+    }
+
+    function onMouseUp(upEvt) {
+      upEvt.preventDefault();
+
+      window.releaseMainPin();
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+    }
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+  });
 })();

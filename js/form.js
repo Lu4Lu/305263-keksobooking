@@ -1,20 +1,23 @@
 'use strict';
-// ************************************
-// Form validation
 (function () {
   var MAIN_PIN_WIDTH = 62;
   var MAIN_PIN_HEIGHT = 84;
 
+  var adFormContainerElement = document.querySelector('.ad-form');
   var timeInField = document.querySelector('#timein');
   var timeOutFiled = document.querySelector('#timeout');
   var apartmentTypeField = document.querySelector('#type');
   var priceField = document.querySelector('#price');
   var roomNumberField = document.querySelector('#room_number');
   var capacityField = document.querySelector('#capacity');
-  var adFormContainerElement = document.querySelector('.ad-form');
   var fieldsetElement = adFormContainerElement.querySelectorAll('fieldset');
   var formAddressElement = adFormContainerElement.querySelector('#address');
+  var resetElement = document.querySelector('.ad-form__reset');
+  window.successMessageElement = document.querySelector('.success');
 
+  // ************************************
+  // Form validation
+  //
   var typePriceDependency = {
     bungalo: '0',
     flat: '1000',
@@ -49,6 +52,11 @@
   function roomsGuestValidation() {
     if ((roomNumberField.value === '1') && (capacityField.value !== '1')) {
       capacityField.setCustomValidity('В одном комнате может поселиться только один гость.');
+      // capacityField.forEach(function (option) {
+      //   if (capacityField.value !== '1') {
+      //     capacityField[option].disabled = true;
+      //   }
+      // });
     } else if ((roomNumberField.value === '2') && (capacityField.value !== '1') && (capacityField.value !== '2')) {
       capacityField.setCustomValidity('В двух комнатах не может поселиться больше 2 гостей.');
     } else if ((roomNumberField.value === '3') && (capacityField.value !== '1') && (capacityField.value !== '2') && (capacityField.value !== '3')) {
@@ -65,6 +73,24 @@
     timeInField.value = timeOutFiled.value = evt.target.value;
   }
 
+  function resetForm() {
+    adFormContainerElement.reset();
+  }
+
+  function showSuccessMessage() {
+    window.successMessageElement.classList.remove('hidden');
+  }
+
+  function onFormSubmit(evt) {
+    evt.preventDefault();
+    var formData = new FormData(adFormContainerElement);
+    window.upload(formData, resetForm, window.onError);
+    showSuccessMessage();
+  }
+
+  // reset the form
+  resetElement.addEventListener('click', resetForm);
+
   apartmentTypeField.addEventListener('change', setMinimalPrice);
   capacityField.addEventListener('change', roomsGuestValidation);
   roomNumberField.addEventListener('change', roomsGuestValidation);
@@ -72,5 +98,6 @@
   timeOutFiled.addEventListener('change', checkTime);
 
   window.setAddress = setAddress;
+  window.onFormSubmit = onFormSubmit;
   window.disableFieldsets = disableFieldsets;
 })();
