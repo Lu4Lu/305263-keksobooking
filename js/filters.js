@@ -7,13 +7,6 @@
 
   var mapFiltersForm = document.querySelector('.map__filters');
 
-  // render first the basic pins array from data
-  // compare the filter of the element and push this element to the array
-  // show the new array
-
-
-  // window.renderUserPins();
-
   // here are filters
   function filterHousingType(pin) {
     var housingTypeElement = mapFiltersForm.querySelector('#housing-type');
@@ -24,7 +17,6 @@
         return pin.offer.type === housingTypeElement.value;
     }
   }
-
 
   function filterPrice(pin) {
     var housingPriceElement = mapFiltersForm.querySelector('#housing-price');
@@ -86,20 +78,27 @@
   }
 
   // take this array and map the new one with filters
-  function filteredPins() {
+  function filterPins() {
     // copy my initial array
     newPins = window.appartments.slice();
 
-    var filtered = newPins.filter(filterHousingType).filter(filterPrice)
+    // filter the array
+    var filteredPins = newPins.filter(filterHousingType).filter(filterPrice)
       .filter(filterRooms).filter(filterGuests).filter(filterFeatures);
 
+    window.closePopup();
     deletePins();
-    window.renderUserPins(filtered);
+    // show the new array
+    window.renderUserPins(filteredPins);
   }
+
+  var onFiltersChange = function () {
+    window.debounce(filterPins, window.debounce.DEBOUNCE_INTERVAL);
+  };
 
   // render filtered pins
 
   // console.log(filteredPins);
 
-  mapFiltersForm.addEventListener('change', filteredPins);
+  mapFiltersForm.addEventListener('change', onFiltersChange);
 })();
