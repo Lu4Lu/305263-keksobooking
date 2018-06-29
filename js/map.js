@@ -24,7 +24,7 @@ function releaseMainPin() {
     window.mapElement.classList.remove('map--faded');
     adFormContainerElement.classList.remove('ad-form--disabled');
     window.disableFieldsets(false);
-    window.renderUserPins();
+    window.renderUserPins(window.appartments);
   }
 
   isMapActive = true;
