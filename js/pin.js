@@ -7,6 +7,11 @@
   var MAX_MAP_TOP = 130;
   var MAX_MAP_BOTTOM = 630;
 
+  var MAIN_PIN_INIT_COORDS = {
+    x: 570,
+    y: 375
+  };
+
   var mainPinElement = document.querySelector('.map__pin--main');
 
   mainPinElement.addEventListener('mousedown', function (evt) {
@@ -53,4 +58,14 @@
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
   });
+
+  // reset main pin to initial coords
+  var resetMainPin = function () {
+    mainPinElement.style.left = MAIN_PIN_INIT_COORDS.x + 'px';
+    mainPinElement.style.top = MAIN_PIN_INIT_COORDS.y + 'px';
+    window.setAddress(mainPinElement);
+  };
+
+  window.resetMainPin = resetMainPin;
+
 })();

@@ -73,8 +73,10 @@
     timeInField.value = timeOutFiled.value = evt.target.value;
   }
 
-  function resetForm() {
+  function resetPage() {
     adFormContainerElement.reset();
+    window.deletePins();
+    window.resetMainPin();
   }
 
   function showSuccessMessage() {
@@ -84,12 +86,12 @@
   function onFormSubmit(evt) {
     evt.preventDefault();
     var formData = new FormData(adFormContainerElement);
-    window.upload(formData, resetForm, window.onError);
+    window.upload(formData, resetPage, window.onError);
     showSuccessMessage();
   }
 
   // reset the form
-  resetElement.addEventListener('click', resetForm);
+  resetElement.addEventListener('click', resetPage);
 
   apartmentTypeField.addEventListener('change', setMinimalPrice);
   capacityField.addEventListener('change', roomsGuestValidation);
