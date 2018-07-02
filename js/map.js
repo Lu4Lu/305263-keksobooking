@@ -29,6 +29,10 @@ function releaseMainPin() {
   window.isMapActive = true;
 }
 
+function showSuccessMessage() {
+  window.successMessageElement.classList.add('hidden');
+}
+
 // close card by esc press
 window.mapElement.addEventListener('keydown', function (evt) {
   if (evt.keyCode === ESC_KEYCODE) {
@@ -38,9 +42,13 @@ window.mapElement.addEventListener('keydown', function (evt) {
 
 adFormContainerElement.addEventListener('submit', window.onFormSubmit, window.onError);
 
+document.addEventListener('click', function () {
+  showSuccessMessage();
+});
+
 document.addEventListener('keydown', function (evt) {
   if (evt.keyCode === ESC_KEYCODE) {
-    window.successMessageElement.classList.add('hidden');
+    showSuccessMessage();
   }
 });
 
