@@ -16,7 +16,6 @@
       }, DEBOUNCE_INTERVAL);
     };
   }
-
   window.debounce = debounce;
 })();
 

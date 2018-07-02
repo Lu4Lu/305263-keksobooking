@@ -8,6 +8,7 @@
   var MAX_MAP_BOTTOM = 630;
 
   var mainPinElement = document.querySelector('.map__pin--main');
+
   mainPinElement.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
 

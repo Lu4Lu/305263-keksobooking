@@ -26,7 +26,6 @@ function releaseMainPin() {
     window.disableFieldsets(false);
     window.renderUserPins(window.appartments);
   }
-
   isMapActive = true;
 }
 
