@@ -29,7 +29,7 @@ function releaseMainPin() {
   window.isMapActive = true;
 }
 
-function showSuccessMessage() {
+function closeSuccessMessage() {
   window.successMessageElement.classList.add('hidden');
 }
 
@@ -43,12 +43,12 @@ window.mapElement.addEventListener('keydown', function (evt) {
 adFormContainerElement.addEventListener('submit', window.onFormSubmit, window.onError);
 
 document.addEventListener('click', function () {
-  showSuccessMessage();
+  closeSuccessMessage();
 });
 
 document.addEventListener('keydown', function (evt) {
   if (evt.keyCode === ESC_KEYCODE) {
-    showSuccessMessage();
+    closeSuccessMessage();
   }
 });
 

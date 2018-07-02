@@ -74,6 +74,7 @@
   }
 
   function resetPage() {
+    showSuccessMessage();
     adFormContainerElement.reset();
     window.resetMainPin();
     if (window.isMapActive === true) {
@@ -94,7 +95,6 @@
     evt.preventDefault();
     var formData = new FormData(adFormContainerElement);
     window.upload(formData, resetPage, window.onError);
-    showSuccessMessage();
   }
 
   // reset the form
