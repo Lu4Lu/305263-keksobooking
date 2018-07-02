@@ -2,6 +2,13 @@
 (function () {
   var similarCardTemplate = document.querySelector('template').content.querySelector('.map__card');
 
+  var HOUSING_TYPES_RUS = {
+    flat: 'Квартира',
+    house: 'Дом',
+    bungalo: 'Бунгало',
+    palace: 'Дворец'
+  };
+
   function renderPhotos(containerElement, photos) {
   // 3. создать переменную photoTemplate (клонируем туда элемент фото)
     var photoTemplate = containerElement.querySelector('.popup__photo');
@@ -40,7 +47,7 @@
     cardElement.querySelector('.popup__title').textContent = accommodation.offer.title;
     cardElement.querySelector('.popup__text--address').textContent = accommodation.offer.address;
     cardElement.querySelector('.popup__text--price').textContent = accommodation.offer.price + '₽/ночь';
-    cardElement.querySelector('.popup__type').textContent = accommodation.offer.type;
+    cardElement.querySelector('.popup__type').textContent = HOUSING_TYPES_RUS[accommodation.offer.type];
     cardElement.querySelector('.popup__text--capacity').textContent = accommodation.offer.rooms + '  комнаты для ' + accommodation.offer.guests + ' гостей.';
     cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + accommodation.offer.checkin + ', выезд до ' + accommodation.offer.checkin + '.';
     cardElement.querySelector('.popup__description').textContent = accommodation.offer.description;
