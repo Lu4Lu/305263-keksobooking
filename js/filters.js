@@ -1,11 +1,21 @@
 'use strict';
 (function () {
-  var mapFiltersForm = document.querySelector('.map__filters');
-  var housingTypeElement = mapFiltersForm.querySelector('#housing-type');
-  var housingPriceElement = mapFiltersForm.querySelector('#housing-price');
-  var housingRoomsElement = mapFiltersForm.querySelector('#housing-rooms');
-  var housingGuestsElement = mapFiltersForm.querySelector('#housing-guests');
-  var housingFeatures = mapFiltersForm.querySelectorAll('.map__checkbox');
+  var mapFiltersContainer = document.querySelector('.map__filters');
+  var housingTypeElement = mapFiltersContainer.querySelector('#housing-type');
+  var housingPriceElement = mapFiltersContainer.querySelector('#housing-price');
+  var housingRoomsElement = mapFiltersContainer.querySelector('#housing-rooms');
+  var housingGuestsElement = mapFiltersContainer.querySelector('#housing-guests');
+  var housingFeatures = mapFiltersContainer.querySelectorAll('.map__checkbox');
+
+
+  // disable filters / inactive mode
+  function disableFilters(boolean) {
+    var filterElements = mapFiltersContainer.children;
+    for (var i = 0; i < filterElements.length; i++) {
+      filterElements[i].disabled = boolean;
+    }
+  }
+  disableFilters(true);
 
   // here are the filters
   function filterHousingType(pin) {
@@ -76,6 +86,7 @@
   }
 
   var debouncedFilterPins = window.debounce(filterPins);
+  window.disableFilters = disableFilters;
 
-  mapFiltersForm.addEventListener('change', debouncedFilterPins);
+  mapFiltersContainer.addEventListener('change', debouncedFilterPins);
 })();

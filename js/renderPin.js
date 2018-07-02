@@ -26,14 +26,11 @@
 
   // delete the 'old' pins
   function deletePins() {
-    var pinElement = pinsContainerElement.querySelectorAll('.map__pin');
+    var pinButtonElement = pinsContainerElement.querySelectorAll('.map__pin');
 
-    for (var j = 1; j < pinElement.length; j++) {
-      pinsContainerElement.removeChild(pinElement[j]);
+    for (var j = 1; j < pinButtonElement.length; j++) {
+      pinsContainerElement.removeChild(pinButtonElement[j]);
     }
-    // pinElement.forEach(function (it) {
-    //   pinsContainerElement.removeChild(it);
-    // });
   }
 
   function renderUserPins(array) {
@@ -45,10 +42,7 @@
       fragment.appendChild(renderPin(array[i]));
     }
     pinsContainerElement.appendChild(fragment);
+    window.disableFilters(false);
   }
-  // array.forEach(function (element) {
-  //   fragment.appendChild(renderPin(element));
-  // });
-  // pinsContainerElement.appendChild(fragment);
   window.renderUserPins = renderUserPins;
 })();
