@@ -79,6 +79,7 @@
     // if a card already exists - remove it
     if (cardElement) {
       cardElement.remove();
+      window.deactivatePins();
     }
   }
 
