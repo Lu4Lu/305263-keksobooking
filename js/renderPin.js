@@ -3,9 +3,12 @@
   var mapElement = document.querySelector('.map');
   var PIN_HEIGHT = 70;
   var PIN_WIDTH = 50;
+  var SHOWED_PINS_AMOUNT = 5;
 
   var pinsContainerElement = mapElement.querySelector('.map__pins');
   var pinTemplate = document.querySelector('template').content.querySelector('.map__pin');
+  // var pinsContainerElement = document.querySelector('.map__pins');
+  // var pinElement = pinsContainerElement.querySelectorAll('.map__pin');
 
   function renderPin(accommodation) {
     var pinElement = pinTemplate.cloneNode(true);
@@ -21,23 +24,31 @@
     return pinElement;
   }
 
-  // function renderUserPins() {
-  //   var fragment = document.createDocumentFragment();
-  //   // for every item in array render pin
-  //   window.appartments.forEach(function (apartment) {
-  //     fragment.appendChild(renderPin(apartment));
-  //   });
-  //   pinsContainerElement.appendChild(fragment);
-  // }
-  // window.renderUserPins = renderUserPins;
+  // delete the 'old' pins
+  function deletePins() {
+    var pinElement = pinsContainerElement.querySelectorAll('.map__pin');
+
+    for (var j = 1; j < pinElement.length; j++) {
+      pinsContainerElement.removeChild(pinElement[j]);
+    }
+    // pinElement.forEach(function (it) {
+    //   pinsContainerElement.removeChild(it);
+    // });
+  }
 
   function renderUserPins(array) {
+    deletePins();
     var fragment = document.createDocumentFragment();
     // for every item in array render pin
-    array.forEach(function (element) {
-      fragment.appendChild(renderPin(element));
-    });
+    for (var i = 0; i < SHOWED_PINS_AMOUNT; i++) {
+      // here append child for every element
+      fragment.appendChild(renderPin(array[i]));
+    }
     pinsContainerElement.appendChild(fragment);
   }
+  // array.forEach(function (element) {
+  //   fragment.appendChild(renderPin(element));
+  // });
+  // pinsContainerElement.appendChild(fragment);
   window.renderUserPins = renderUserPins;
 })();
