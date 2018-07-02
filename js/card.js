@@ -27,17 +27,22 @@
   }
 
   function renderFeatures(containerElement, features) {
-  // 2. clean it
-    containerElement.innerHTML = '';
-    // 4. start cycle for ... clone template element
-    features.forEach(function (feature) {
-    // 3. set a template element
-      var featureElement = document.createElement('li');
-      // 5. set class popup-feature--{{...}}
-      featureElement.className = 'popup__feature popup__feature--' + feature;
-      // 6. append element
-      containerElement.appendChild(featureElement);
-    });
+    // check if accommodation has features
+    if (features.length !== 0) {
+      // 2. clean it
+      containerElement.innerHTML = '';
+      // 4. start cycle for ... clone template element
+      features.forEach(function (feature) {
+        // 3. set a template element
+        var featureElement = document.createElement('li');
+        // 5. set class popup-feature--{{...}}
+        featureElement.className = 'popup__feature popup__feature--' + feature;
+        // 6. append element
+        containerElement.appendChild(featureElement);
+      });
+    } else {
+      containerElement.remove();
+    }
   }
 
   function renderCard(accommodation) {
