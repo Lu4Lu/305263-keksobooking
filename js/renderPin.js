@@ -50,13 +50,13 @@
   window.deactivatePins = deactivatePins;
   window.activatePin = activatePin;
 
-  function renderUserPins(array) {
-    deletePins();
+  function renderUserPins(newArray) {
+    // deletePins();
     var fragment = document.createDocumentFragment();
     // for every item in array render pin
     for (var i = 0; i < SHOWED_PINS_AMOUNT; i++) {
       // here append child for every element
-      fragment.appendChild(renderPin(array[i]));
+      fragment.appendChild(renderPin(newArray[i]));
     }
     pinsContainerElement.appendChild(fragment);
     window.disableFilters(false);

@@ -75,8 +75,15 @@
 
   function resetPage() {
     adFormContainerElement.reset();
-    window.deletePins();
     window.resetMainPin();
+    if (window.isMapActive === true) {
+      // activate map and form
+      window.mapElement.classList.add('map--faded');
+      adFormContainerElement.classList.add('ad-form--disabled');
+      window.disableFieldsets(true);
+      window.deletePins();
+    }
+    window.isMapActive = false;
   }
 
   function showSuccessMessage() {

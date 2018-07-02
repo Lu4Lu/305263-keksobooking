@@ -6,7 +6,7 @@ var ESC_KEYCODE = 27;
 window.mapElement = document.querySelector('.map');
 var mainPinElement = window.mapElement.querySelector('.map__pin--main');
 var adFormContainerElement = document.querySelector('.ad-form');
-var isMapActive = false;
+window.isMapActive = false;
 
 window.appartments = [];
 window.load(
@@ -19,14 +19,14 @@ window.load(
 // actions on main pin release
 function releaseMainPin() {
   window.setAddress(mainPinElement);
-  if (isMapActive === false) {
+  if (window.isMapActive === false) {
     // activate map and form
     window.mapElement.classList.remove('map--faded');
     adFormContainerElement.classList.remove('ad-form--disabled');
     window.disableFieldsets(false);
     window.renderUserPins(window.appartments);
   }
-  isMapActive = true;
+  window.isMapActive = true;
 }
 
 // close card by esc press
