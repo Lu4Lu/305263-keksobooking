@@ -109,4 +109,5 @@
   window.setAddress = setAddress;
   window.onFormSubmit = onFormSubmit;
   window.disableFieldsets = disableFieldsets;
+  window.resetPage = resetPage;
 })();
