@@ -11,15 +11,14 @@ var closeErrorMessageElement = document.querySelector('.error__message--close');
 window.isMapActive = false;
 
 window.appartments = [];
-window.load(
-    function (data) {
-      window.appartments = data;
-    },
-    window.onError
-);
-
 // actions on main pin release
 function releaseMainPin() {
+  window.load(
+      function (data) {
+        window.appartments = data;
+      },
+      window.onError
+  );
   window.setAddress(mainPinElement);
   if (window.isMapActive === false) {
     // activate map and form
