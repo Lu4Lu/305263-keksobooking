@@ -10,22 +10,25 @@ var closeErrorMessageElement = document.querySelector('.error__message--close');
 
 window.isMapActive = false;
 
-window.appartments = [];
+// window.appartments = [];
+
+
 // actions on main pin release
 function releaseMainPin() {
-  window.load(
-      function (data) {
-        window.appartments = data;
-      },
-      window.onError
-  );
+
   window.setAddress(mainPinElement);
   if (window.isMapActive === false) {
     // activate map and form
+    window.load(
+        function (data) {
+          window.appartments = data;
+          window.renderUserPins(data);
+        },
+        window.onError
+    );
     window.mapElement.classList.remove('map--faded');
     adFormContainerElement.classList.remove('ad-form--disabled');
     window.disableFieldsets(false);
-    window.renderUserPins(window.appartments);
   }
   window.isMapActive = true;
 }
