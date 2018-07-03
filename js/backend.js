@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var loadURL = 'https://js.dump.academy/keksobooking/';
+  var loadURL = 'https://js.dump.academy/keksobooking/data';
   var uploadURL = 'https://js.dump.academy/keksobooking';
   var TIMEOUT = 10000;
 
