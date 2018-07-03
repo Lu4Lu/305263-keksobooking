@@ -1216,3 +1216,48 @@ fieldset {
       -ms-transform: translateX(-50%);
           transform: translateX(-50%);
 }
+
+.error {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 100;
+
+  margin-left: -150px;
+  margin-top: -100px;
+
+  width: 300px;
+  height: 150px;
+  background-color: #fff;
+  /*border-color: #FF808A;*/
+  /*border-width: 10px;*/
+  border-radius: 10px;
+  box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.5);
+
+  padding: 10px 10px 10px 10px;
+
+}
+
+.error__message {
+  position: relative;
+
+  font-size: 20px;
+  text-align: center;
+  color: #ff3f3f;
+}
+
+.error__message--close {
+  font-size: 16px;
+  color: #111111;
+}
+
+.error__message--close {
+  padding: 0 20px;
+  color: #111111;
+  border: 1px solid #fff;
+  text-align: center;
+  text-decoration:underline dotted #ff3f3f;
+  outline: none;
+}
+
+

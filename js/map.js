@@ -6,6 +6,8 @@ var ESC_KEYCODE = 27;
 window.mapElement = document.querySelector('.map');
 var mainPinElement = window.mapElement.querySelector('.map__pin--main');
 var adFormContainerElement = document.querySelector('.ad-form');
+var closeErrorMessageElement = document.querySelector('.error__message--close');
+
 window.isMapActive = false;
 
 window.appartments = [];
@@ -33,11 +35,19 @@ function closeSuccessMessage() {
   window.successMessageElement.classList.add('hidden');
 }
 
+function closeErrorMessage() {
+  window.errorMessageContainer.classList.add('hidden');
+}
+
 // close card by esc press
 window.mapElement.addEventListener('keydown', function (evt) {
   if (evt.keyCode === ESC_KEYCODE) {
     window.closePopup();
   }
+});
+
+closeErrorMessageElement.addEventListener('click', function () {
+  closeSuccessMessage();
 });
 
 adFormContainerElement.addEventListener('submit', window.onFormSubmit, window.onError);
@@ -49,6 +59,16 @@ document.addEventListener('click', function () {
 document.addEventListener('keydown', function (evt) {
   if (evt.keyCode === ESC_KEYCODE) {
     closeSuccessMessage();
+  }
+});
+
+closeErrorMessageElement.addEventListener('click', function () {
+  closeErrorMessage();
+});
+
+document.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    closeErrorMessage();
   }
 });
 
