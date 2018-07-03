@@ -15,9 +15,7 @@
   var resetElement = document.querySelector('.ad-form__reset');
   window.successMessageElement = document.querySelector('.success');
 
-  // ************************************
-  // Form validation
-  //
+
   var typePriceDependency = {
     bungalo: '0',
     flat: '1000',
