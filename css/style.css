@@ -1249,11 +1249,8 @@ fieldset {
 .error__message--close {
   font-size: 16px;
   color: #111111;
-}
 
-.error__message--close {
   padding: 0 20px;
-  color: #111111;
   border: 1px solid #fff;
   text-align: center;
   text-decoration:underline dotted #ff3f3f;
