@@ -9,7 +9,6 @@
   var pinsContainerElement = mapElement.querySelector('.map__pins');
   var pinTemplate = document.querySelector('template').content.querySelector('.map__pin');
   window.pinButtonElement = pinsContainerElement.querySelectorAll('.map__pin');
-  // var pinsContainerElement = document.querySelector('.map__pins');
 
   function renderPin(accommodation) {
     var pinElement = pinTemplate.cloneNode(true);
@@ -20,16 +19,16 @@
     // set event listener for every pin element
     pinElement.addEventListener('click', function () {
       window.showCardPopup(accommodation);
-      // activatePin(pinElement);
-      // window.deactivatePin();
     });
     return pinElement;
   }
 
   // delete the 'old' pins
   function deletePins() {
-    for (var j = 1; j < window.pinButtonElement.length; j++) {
-      pinsContainerElement.removeChild(window.pinButtonElement[j]);
+    var pinElement = pinsContainerElement.querySelectorAll('.map__pin');
+
+    for (var j = 1; j < pinElement.length; j++) {
+      pinsContainerElement.removeChild(pinElement[j]);
     }
   }
 
@@ -47,22 +46,22 @@
     }
     isPinActive = false;
   }
-  window.deactivatePins = deactivatePins;
-  window.activatePin = activatePin;
 
   function renderUserPins(newArray) {
-    // deletePins();
+    var arrayLength = newArray.length > SHOWED_PINS_AMOUNT ? SHOWED_PINS_AMOUNT : newArray.length;
+    deletePins();
     var fragment = document.createDocumentFragment();
     // for every item in array render pin
-    for (var i = 0; i < SHOWED_PINS_AMOUNT; i++) {
+    for (var i = 0; i < arrayLength; i++) {
       // here append child for every element
       fragment.appendChild(renderPin(newArray[i]));
     }
     pinsContainerElement.appendChild(fragment);
     window.disableFilters(false);
   }
+
   window.renderUserPins = renderUserPins;
-
-
   window.deletePins = deletePins;
+  window.deactivatePins = deactivatePins;
+  window.activatePin = activatePin;
 })();
