@@ -1247,6 +1247,8 @@ fieldset {
 }
 
 .error__message--close {
+  display: block;
+  margin: 0 auto;
   font-size: 16px;
   color: #111111;
 
@@ -1255,6 +1257,12 @@ fieldset {
   text-align: center;
   text-decoration:underline dotted #ff3f3f;
   outline: none;
+}
+
+.error__message--close:focus {
+  outline: none;
+  -webkit-box-shadow: 0 0 10px 3px #ff6547;
+  box-shadow: 0 0 10px 3px #ff6547;
 }
 
 

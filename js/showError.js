@@ -5,8 +5,8 @@
   var errorMessageSpanElement = errorMessageElement.querySelector('span');
 
   function onError(errorMessage) {
-    window.errorMessageContainer.classList.remove('hidden');
     errorMessageSpanElement.textContent = errorMessage;
+    window.errorMessageContainer.classList.remove('hidden');
   }
   window.onError = onError;
 })();
