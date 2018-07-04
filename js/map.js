@@ -2,21 +2,23 @@
 //
 // Pin interaction with web site
 //
-var ESC_KEYCODE = 27;
-var ENTER_KEYCODE = 13;
+var Keycode = {
+  ESC: 27,
+  ENTER: 13
+};
+
 window.mapElement = document.querySelector('.map');
 var mainPinElement = window.mapElement.querySelector('.map__pin--main');
-var adFormContainerElement = document.querySelector('.ad-form');
+window.formContainerElement = document.querySelector('.ad-form');
 var closeErrorMessageElement = document.querySelector('.error__message--close');
 
 window.isMapActive = false;
 
 // actions on main pin release
 function releaseMainPin() {
-
-  window.setAddress(mainPinElement);
+  window.form.setAddress(mainPinElement);
+  // load data and render pins
   if (window.isMapActive === false) {
-    // activate map and form
     window.load(
         function (data) {
           window.appartments = data;
@@ -24,11 +26,8 @@ function releaseMainPin() {
         },
         window.onError
     );
-    window.mapElement.classList.remove('map--faded');
-    adFormContainerElement.classList.remove('ad-form--disabled');
-    window.disableFieldsets(false);
+    window.pageMode.toActive();
   }
-  window.isMapActive = true;
 }
 
 function closeSuccessMessage() {
@@ -41,7 +40,7 @@ function closeErrorMessage() {
 
 // close card by esc press
 window.mapElement.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === ESC_KEYCODE) {
+  if (evt.keyCode === Keycode.ESC) {
     window.closePopup();
   }
 });
@@ -50,14 +49,14 @@ closeErrorMessageElement.addEventListener('click', function () {
   closeSuccessMessage();
 });
 
-adFormContainerElement.addEventListener('submit', window.onFormSubmit, window.onError);
+window.formContainerElement.addEventListener('submit', window.onFormSubmit, window.onError);
 
 document.addEventListener('click', function () {
   closeSuccessMessage();
 });
 
 document.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === ESC_KEYCODE) {
+  if (evt.keyCode === Keycode.ESC) {
     closeSuccessMessage();
   }
 });
@@ -67,16 +66,20 @@ closeErrorMessageElement.addEventListener('click', function () {
 });
 
 document.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === ESC_KEYCODE) {
+  if (evt.keyCode === Keycode.ESC) {
     closeErrorMessage();
   }
 });
 
 // click on main pin
 mainPinElement.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === ENTER_KEYCODE) {
+  if (evt.keyCode === Keycode.ENTER) {
     releaseMainPin();
   }
 });
 
-window.releaseMainPin = releaseMainPin;
+window.map = {
+  releaseMainPin: releaseMainPin
+};
+
+// window.releaseMainPin = releaseMainPin;

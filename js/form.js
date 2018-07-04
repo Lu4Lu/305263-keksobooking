@@ -1,20 +1,23 @@
 'use strict';
 (function () {
-  var MAIN_PIN_WIDTH = 62;
-  var MAIN_PIN_HEIGHT = 84;
 
-  var adFormContainerElement = document.querySelector('.ad-form');
+  var MainPinSize = {
+    WIDTH: 62,
+    HEIGHT: 84
+  };
+
+  var formContainerElement = document.querySelector('.ad-form');
   var timeInField = document.querySelector('#timein');
   var timeOutFiled = document.querySelector('#timeout');
   var apartmentTypeField = document.querySelector('#type');
   var priceField = document.querySelector('#price');
   var roomNumberField = document.querySelector('#room_number');
   var capacityField = document.querySelector('#capacity');
-  var fieldsetElement = adFormContainerElement.querySelectorAll('fieldset');
-  var formAddressElement = adFormContainerElement.querySelector('#address');
+  var fieldsetElement = formContainerElement.querySelectorAll('fieldset');
+  var formAddressElement = formContainerElement.querySelector('#address');
   var resetElement = document.querySelector('.ad-form__reset');
-  window.successMessageElement = document.querySelector('.success');
 
+  window.successMessageElement = document.querySelector('.success');
 
   var typePriceDependency = {
     bungalo: '0',
@@ -28,8 +31,8 @@
 
   // set address from main pin
   function setAddress(item) {
-    formAddressElement.value = (parseInt(item.style.left, 10) + (MAIN_PIN_WIDTH / 2)) + ', '
-      + (parseInt(item.style.left, 10) + MAIN_PIN_HEIGHT);
+    formAddressElement.value = (parseInt(item.style.left, 10) + (MainPinSize.WIDTH / 2)) + ', '
+      + (parseInt(item.style.left, 10) + MainPinSize.HEIGHT);
   }
 
   // disable fieldsetElement / inactive mode
@@ -68,13 +71,10 @@
 
   function resetPage() {
     showSuccessMessage();
-    adFormContainerElement.reset();
+    formContainerElement.reset();
     window.resetMainPin();
     if (window.isMapActive === true) {
-      // activate map and form
-      window.mapElement.classList.add('map--faded');
-      adFormContainerElement.classList.add('ad-form--disabled');
-      window.disableFieldsets(true);
+      window.pageMode.toInactive();
       window.deletePins();
     }
     window.isMapActive = false;
@@ -86,7 +86,7 @@
 
   function onFormSubmit(evt) {
     evt.preventDefault();
-    var formData = new FormData(adFormContainerElement);
+    var formData = new FormData(formContainerElement);
     window.upload(formData, resetPage, window.onError);
   }
 
@@ -98,6 +98,13 @@
   roomNumberField.addEventListener('change', roomsGuestValidation);
   timeInField.addEventListener('change', checkTime);
   timeOutFiled.addEventListener('change', checkTime);
+
+  window.form = {
+    setAddress: setAddress,
+    onFormSubmit: onFormSubmit,
+    disableFieldsets: disableFieldsets,
+    resetPage: resetPage
+  };
 
   window.setAddress = setAddress;
   window.onFormSubmit = onFormSubmit;

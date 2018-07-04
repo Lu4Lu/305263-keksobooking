@@ -4,8 +4,7 @@
   var loadURL = 'https://js.dump.academy/keksobooking/data';
   var uploadURL = 'https://js.dump.academy/keksobooking';
   var TIMEOUT = 10000;
-
-  var httpStatusCodes = {
+  var HttpStatusCode = {
     SUCCESS: 200,
     BAD_REQUEST: 400,
     USER_UNAUTHORIZED: 401,
@@ -20,19 +19,19 @@
 
     xhr.addEventListener('load', function () {
       switch (xhr.status) {
-        case httpStatusCodes.SUCCESS:
+        case HttpStatusCode.SUCCESS:
           onLoad(xhr.response);
           break;
-        case httpStatusCodes.BAD_REQUEST:
+        case HttpStatusCode.BAD_REQUEST:
           onError('Неверный запрос');
           break;
-        case httpStatusCodes.USER_UNAUTHORIZED:
+        case HttpStatusCode.USER_UNAUTHORIZED:
           onError('Пользователь не авторизован');
           break;
-        case httpStatusCodes.NOT_FOUND:
+        case HttpStatusCode.NOT_FOUND:
           onError('Страница не найдена');
           break;
-        case httpStatusCodes.SERVER_ERROR:
+        case HttpStatusCode.SERVER_ERROR:
           onError('Внутренняя ошибка сервера');
           break;
         default:
@@ -57,7 +56,7 @@
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
-      if (xhr.status === httpStatusCodes.SUCCESS) {
+      if (xhr.status === HttpStatusCode.SUCCESS) {
         onLoad(xhr.response);
         window.resetPage();
       } else {

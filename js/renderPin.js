@@ -35,13 +35,13 @@
   // activate and deactivate clicked pin
   var isPinActive = false;
   function activatePin(pinItem) {
-    pinItem.classList.add('map__pin--active');
+    pinItem.classList.add('map__pin--toActive');
     isPinActive = true;
   }
   function deactivatePins() {
     if (isPinActive === true) {
       for (var j = 1; j < window.pinButtonElement.length; j++) {
-        window.pinButtonElement.classList.remove('map__pin--active');
+        window.pinButtonElement.classList.remove('map__pin--toActive');
       }
     }
     isPinActive = false;

@@ -50,7 +50,7 @@
     function onMouseUp(upEvt) {
       upEvt.preventDefault();
 
-      window.releaseMainPin();
+      window.map.releaseMainPin();
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
     }
