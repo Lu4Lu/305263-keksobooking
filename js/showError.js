@@ -2,7 +2,7 @@
 (function () {
   window.errorMessageContainerElement = document.querySelector('.error');
   var errorMessageElement = window.errorMessageContainerElement.querySelector('.error__message span');
-  var errorMessageCloseButtonElement = window.errorMessageContainerElement.querySelector('error__message--close');
+  var errorMessageCloseButtonElement = document.querySelector('.error__message--close');
 
   function onError(errorMessage) {
     errorMessageElement.textContent = errorMessage;
