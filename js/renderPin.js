@@ -12,6 +12,7 @@
   var mapElement = document.querySelector('.map');
 
   var pinsContainerElement = mapElement.querySelector('.map__pins');
+  debbuger;
   var pinTemplateElement = document.querySelector('template').content.querySelector('.map__pin');
   var pinButtonElement = pinsContainerElement.querySelectorAll('.map__pin');
 
@@ -49,6 +50,7 @@
     if (isPinActive === true) {
       for (var j = 1; j < pinButtonElement.length; j++) {
         pinButtonElement.classList.remove('map__pin--active');
+
       }
     }
     isPinActive = false;
