@@ -4,6 +4,7 @@
     HEIGHT: 70,
     WIDTH: 50
   };
+
   var isPinActive = false;
 
   var SHOWED_PINS_AMOUNT = 5;
@@ -23,6 +24,8 @@
     // set event listener for every pin element
     pinElement.addEventListener('click', function () {
       window.card.showCardPopup(accommodation);
+      deactivatePin();
+      activatePin(pinElement);
     });
     return pinElement;
   }
@@ -36,10 +39,16 @@
     }
   }
 
-  function deactivatePins() {
+  // activate and deactivate clicked pin
+  function activatePin(pinItem) {
+    pinItem.classList.add('map__pin--active');
+    isPinActive = true;
+  }
+
+  function deactivatePin() {
     if (isPinActive === true) {
-      for (var j = 1; j < window.pinButtonElement.length; j++) {
-        window.pinButtonElement.classList.remove('map__pin--active');
+      for (var j = 1; j < pinButtonElement.length; j++) {
+        pinButtonElement.classList.remove('map__pin--active');
       }
     }
     isPinActive = false;
@@ -61,8 +70,6 @@
   window.renderPin = {
     renderUserPins: renderUserPins,
     deletePins: deletePins,
-    deactivatePins: deactivatePins,
+    deactivatePin: deactivatePin,
   };
-
-  window.pinButtonElement = pinButtonElement;
 })();

@@ -46,7 +46,6 @@
   }
 
   function renderCard(accommodation) {
-
     var cardElement = similarCardTemplate.cloneNode(true);
 
     cardElement.querySelector('.popup__title').textContent = accommodation.offer.title;
@@ -67,7 +66,7 @@
     cardElement.querySelector('.popup__avatar').src = accommodation.author.avatar;
 
     // close card by mouse click on setupClose
-    cardElement.querySelector('.popup__close').addEventListener('click', window.closePopup);
+    cardElement.querySelector('.popup__close').addEventListener('click', window.card.closePopup);
 
     return cardElement;
   }
@@ -76,7 +75,7 @@
   var cardElement;
   function showCardPopup(pinItem) {
     closePopup();
-    cardElement = window.renderCard(pinItem);
+    cardElement = renderCard(pinItem);
     window.mapElement.insertBefore(cardElement, window.mapElement.querySelector('.map__filters-container'));
   }
 
@@ -84,13 +83,14 @@
     // if a card already exists - remove it
     if (cardElement) {
       cardElement.remove();
-      window.renderPin.deactivatePins();
+      window.renderPin.deactivatePin();
     }
   }
 
   window.card = {
     showCardPopup: showCardPopup,
-    closePopup: closePopup
+    closePopup: closePopup,
+    // renderCard: renderCard
   };
 })();
 
