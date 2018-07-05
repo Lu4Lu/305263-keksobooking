@@ -1,11 +1,12 @@
 'use strict';
 (function () {
   // switch to inactive mode
-  function toggleInctive() {
+  function toggleInactive() {
     window.mapElement.classList.add('map--faded');
     window.formContainerElement.classList.add('ad-form--disabled');
     window.form.disableFieldsets(true);
     window.isMapActive = false;
+    window.card.closePopup();
   }
 
   // switch to toActive mode
@@ -17,7 +18,7 @@
   }
 
   window.pageMode = {
-    toggleInctive: toggleInctive,
+    toggleInactive: toggleInactive,
     toggleActive: toggleActive
   };
 })();

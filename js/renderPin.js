@@ -4,6 +4,7 @@
     HEIGHT: 70,
     WIDTH: 50
   };
+  var isPinActive = false;
 
   var SHOWED_PINS_AMOUNT = 5;
 
@@ -15,13 +16,13 @@
 
   function renderPin(accommodation) {
     var pinElement = pinTemplateElement.cloneNode(true);
-    pinElement.style.left = accommodation.location.X - PinSize.WIDTH / 2 + 'px';
-    pinElement.style.top = accommodation.location.Y - PinSize.HEIGHT + 'px';
+    pinElement.style.left = accommodation.location.x - PinSize.WIDTH / 2 + 'px';
+    pinElement.style.top = accommodation.location.y - PinSize.HEIGHT + 'px';
     pinElement.querySelector('img').src = accommodation.author.avatar;
     pinElement.querySelector('img').alt = accommodation.offer.title;
     // set event listener for every pin element
     pinElement.addEventListener('click', function () {
-      window.showCardPopup(accommodation);
+      window.card.showCardPopup(accommodation);
     });
     return pinElement;
   }
@@ -35,16 +36,10 @@
     }
   }
 
-  // activate and deactivate clicked pin
-  var isPinActive = false;
-  function activatePin(pinItem) {
-    pinItem.classList.add('map__pin--toActive');
-    isPinActive = true;
-  }
   function deactivatePins() {
     if (isPinActive === true) {
       for (var j = 1; j < window.pinButtonElement.length; j++) {
-        window.pinButtonElement.classList.remove('map__pin--toActive');
+        window.pinButtonElement.classList.remove('map__pin--active');
       }
     }
     isPinActive = false;
@@ -60,14 +55,14 @@
       fragment.appendChild(renderPin(newArray[i]));
     }
     pinsContainerElement.appendChild(fragment);
-    window.disableFilters(false);
+    window.filters.disableFilters(false);
   }
 
-
-  window.renderUserPins = renderUserPins;
-  window.deletePins = deletePins;
-  window.deactivatePins = deactivatePins;
-  window.activatePin = activatePin;
+  window.renderPin = {
+    renderUserPins: renderUserPins,
+    deletePins: deletePins,
+    deactivatePins: deactivatePins,
+  };
 
   window.pinButtonElement = pinButtonElement;
 })();

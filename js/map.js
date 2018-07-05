@@ -20,10 +20,10 @@
     window.form.setAddress(mainPinElement);
     // load data and render pins
     if (window.isMapActive === false) {
-      window.load(
+      window.backend.load(
           function (data) {
             window.appartments = data;
-            window.renderUserPins(data);
+            window.renderPin.renderUserPins(data);
           },
           window.onError
       );
@@ -42,7 +42,7 @@
   // close card by esc press
   window.mapElement.addEventListener('keydown', function (evt) {
     if (evt.keyCode === Keycode.ESC) {
-      window.closePopup();
+      window.card.closePopup();
     }
   });
 

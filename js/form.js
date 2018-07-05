@@ -7,12 +7,12 @@
   };
 
   var formContainerElement = document.querySelector('.ad-form');
-  var timeInField = document.querySelector('#timein');
-  var timeOutFiled = document.querySelector('#timeout');
-  var apartmentTypeField = document.querySelector('#type');
-  var priceField = document.querySelector('#price');
-  var roomNumberField = document.querySelector('#room_number');
-  var capacityField = document.querySelector('#capacity');
+  var timeInFieldElement = document.querySelector('#timein');
+  var timeOutFiledElement = document.querySelector('#timeout');
+  var apartmentTypeFieldElement = document.querySelector('#type');
+  var priceFieldElement = document.querySelector('#price');
+  var roomNumberFieldElement = document.querySelector('#room_number');
+  var capacityFieldElement = document.querySelector('#capacity');
   var fieldsetElement = formContainerElement.querySelectorAll('fieldset');
   var formAddressElement = formContainerElement.querySelector('#address');
   var resetButtonElement = document.querySelector('.ad-form__reset');
@@ -45,28 +45,32 @@
 
   // price to apartment type dependency
   function setMinimalPrice() {
-    priceField.min = typePriceDependency[apartmentTypeField.value];
-    priceField.placeholder = typePriceDependency[apartmentTypeField.value];
+    priceFieldElement.min = typePriceDependency[apartmentTypeFieldElement.value];
+    priceFieldElement.placeholder = typePriceDependency[apartmentTypeFieldElement.value];
   }
 
   // rooms to capacity dependencies
   function roomsGuestValidation() {
-    if ((roomNumberField.value === '1') && (capacityField.value !== '1')) {
-      capacityField.setCustomValidity('В одной комнате может поселиться только один гость.');
-    } else if ((roomNumberField.value === '2') && (capacityField.value !== '1') && (capacityField.value !== '2')) {
-      capacityField.setCustomValidity('В двух комнатах не может поселиться больше 2 гостей.');
-    } else if ((roomNumberField.value === '3') && (capacityField.value !== '1') && (capacityField.value !== '2') && (capacityField.value !== '3')) {
-      capacityField.setCustomValidity('В двух комнатах не может поселиться больше 3 гостей.');
-    } else if ((roomNumberField.value === '100') && (capacityField.value !== '0')) {
-      capacityField.setCustomValidity('Сто комнат предназначены не для гостей!');
+    var rooms = roomNumberFieldElement.value;
+    var capacity = capacityFieldElement.value;
+    var message;
+    if ((rooms === '1') && (capacity !== '1')) {
+      message = 'В одной комнате может поселиться только один гость.';
+    } else if ((rooms === '2') && (capacityFieldElement.value !== '1') && (capacityFieldElement.value !== '2')) {
+      message = 'В двух комнатах не может поселиться больше 2 гостей.';
+    } else if ((rooms === '3') && (capacityFieldElement.value !== '1') && (capacityFieldElement.value !== '2') && (capacityFieldElement.value !== '3')) {
+      message = 'В двух комнатах не может поселиться больше 3 гостей.';
+    } else if ((rooms === '100') && (capacityFieldElement.value !== '0')) {
+      message = 'Сто комнат предназначены не для гостей!';
     } else {
-      capacityField.setCustomValidity('');
+      message = '';
     }
+    capacityFieldElement.setCustomValidity(message);
   }
 
   // matching check in time with check out time
   function checkTime(evt) {
-    timeInField.value = timeOutFiled.value = evt.target.value;
+    timeInFieldElement.value = timeOutFiledElement.value = evt.target.value;
   }
 
   function resetPage() {
@@ -74,8 +78,9 @@
     formContainerElement.reset();
     window.mainPin.resetMainPin();
     if (window.isMapActive === true) {
-      window.pageMode.toggleInctive();
-      window.deletePins();
+      window.pageMode.toggleInactive();
+      window.renderPin.deletePins();
+      // window.
     }
     window.isMapActive = false;
   }
@@ -87,23 +92,21 @@
   function onFormSubmit(evt) {
     evt.preventDefault();
     var formData = new FormData(formContainerElement);
-    window.upload(formData, resetPage, window.onError);
+    window.backend.upload(formData, resetPage, window.onError);
   }
 
   // reset the form
   resetButtonElement.addEventListener('click', resetPage);
 
-  apartmentTypeField.addEventListener('change', setMinimalPrice);
-  capacityField.addEventListener('change', roomsGuestValidation);
-  roomNumberField.addEventListener('change', roomsGuestValidation);
-  timeInField.addEventListener('change', checkTime);
-  timeOutFiled.addEventListener('change', checkTime);
+  apartmentTypeFieldElement.addEventListener('change', setMinimalPrice);
+  capacityFieldElement.addEventListener('change', roomsGuestValidation);
+  roomNumberFieldElement.addEventListener('change', roomsGuestValidation);
+  timeInFieldElement.addEventListener('change', checkTime);
+  timeOutFiledElement.addEventListener('change', checkTime);
 
   window.form = {
     setAddress: setAddress,
     onFormSubmit: onFormSubmit,
     disableFieldsets: disableFieldsets,
-    resetPage: resetPage
   };
-
 })();

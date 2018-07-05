@@ -71,7 +71,9 @@
     xhr.send(data);
   }
 
-  window.load = load;
-  window.upload = upload;
+  window.backend = {
+    load: load,
+    upload: upload
+  };
 })();
 

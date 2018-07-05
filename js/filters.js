@@ -83,13 +83,16 @@
     var filteredPins = newPins.filter(function (item) {
       return filterHousingType(item) && filterPrice(item) && filterRooms(item) && filterGuests(item) && filterFeatures(item);
     });
-    window.closePopup();
+    window.card.closePopup();
     // show the new array
-    window.renderUserPins(filteredPins);
+    window.renderPin.renderUserPins(filteredPins);
   }
 
   var debouncedFilterPins = window.debounce(filterPins);
-  window.disableFilters = disableFilters;
+
+  window.filters = {
+    disableFilters: disableFilters
+  };
 
   mapFiltersContainer.addEventListener('change', debouncedFilterPins);
 })();

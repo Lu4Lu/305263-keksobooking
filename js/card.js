@@ -84,12 +84,13 @@
     // if a card already exists - remove it
     if (cardElement) {
       cardElement.remove();
-      window.deactivatePins();
+      window.renderPin.deactivatePins();
     }
   }
 
-  window.showCardPopup = showCardPopup;
-  window.closePopup = closePopup;
-  window.renderCard = renderCard;
+  window.card = {
+    showCardPopup: showCardPopup,
+    closePopup: closePopup
+  };
 })();
 
