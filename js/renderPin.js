@@ -12,7 +12,6 @@
   var mapElement = document.querySelector('.map');
 
   var pinsContainerElement = mapElement.querySelector('.map__pins');
-  debbuger;
   var pinTemplateElement = document.querySelector('template').content.querySelector('.map__pin');
   var pinButtonElement = pinsContainerElement.querySelectorAll('.map__pin');
 

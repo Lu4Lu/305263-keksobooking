@@ -90,7 +90,6 @@
   window.card = {
     showCardPopup: showCardPopup,
     closePopup: closePopup,
-    // renderCard: renderCard
   };
 })();
 
