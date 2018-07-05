@@ -1,12 +1,13 @@
 'use strict';
 (function () {
   window.errorMessageContainerElement = document.querySelector('.error');
-  var errorMessageElement = window.errorMessageContainerElement.querySelector('.error__message');
-  var errorMessageSpanElement = errorMessageElement.querySelector('span');
+  var errorMessageElement = window.errorMessageContainerElement.querySelector('.error__message span');
+  var errorMessageCloseButtonElement = window.errorMessageContainerElement.querySelector('error__message--close');
 
   function onError(errorMessage) {
-    errorMessageSpanElement.textContent = errorMessage;
+    errorMessageElement.textContent = errorMessage;
     window.errorMessageContainerElement.classList.remove('hidden');
+    errorMessageCloseButtonElement.focus();
   }
   window.onError = onError;
 })();
