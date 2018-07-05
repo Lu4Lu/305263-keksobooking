@@ -7,6 +7,10 @@
   var housingGuestsElement = mapFiltersContainer.querySelector('#housing-guests');
   var housingFeatures = mapFiltersContainer.querySelectorAll('.map__checkbox');
 
+  var FilterPrice = {
+    MIN: 10000,
+    MAX: 50000
+  };
 
   // disable filters / inactive mode
   function disableFilters(boolean) {
@@ -28,11 +32,6 @@
   }
 
   function filterPrice(pin) {
-    var FilterPrice = {
-      MIN: 10000,
-      MAX: 50000
-    };
-
     switch (housingPriceElement.value) {
       case 'any':
         return true;
