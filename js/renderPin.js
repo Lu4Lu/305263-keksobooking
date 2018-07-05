@@ -14,7 +14,6 @@
   var pinsContainerElement = mapElement.querySelector('.map__pins');
   var pinTemplateElement = document.querySelector('template').content.querySelector('.map__pin');
   var pinButtonElement;
-  // var pinButtonElement = pinsContainerElement.querySelectorAll('.map__pin');
 
   function renderPin(accommodation) {
     var pinElement = pinTemplateElement.cloneNode(true);
