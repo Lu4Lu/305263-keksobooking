@@ -13,7 +13,8 @@
 
   var pinsContainerElement = mapElement.querySelector('.map__pins');
   var pinTemplateElement = document.querySelector('template').content.querySelector('.map__pin');
-  var pinButtonElement = pinsContainerElement.querySelectorAll('.map__pin');
+  var pinButtonElement;
+  // var pinButtonElement = pinsContainerElement.querySelectorAll('.map__pin');
 
   function renderPin(accommodation) {
     var pinElement = pinTemplateElement.cloneNode(true);
@@ -47,8 +48,9 @@
 
   function deactivatePin() {
     if (isPinActive === true) {
+      pinButtonElement = pinsContainerElement.querySelectorAll('.map__pin');
       for (var j = 1; j < pinButtonElement.length; j++) {
-        pinButtonElement.classList.remove('map__pin--active');
+        pinButtonElement[j].classList.remove('map__pin--active');
 
       }
     }
