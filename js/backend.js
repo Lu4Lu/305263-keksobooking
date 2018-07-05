@@ -58,7 +58,6 @@
     xhr.addEventListener('load', function () {
       if (xhr.status === HttpStatusCode.SUCCESS) {
         onLoad(xhr.response);
-        window.resetPage();
       } else {
         onError('Cтатус ответа: ' + xhr.status + ' ' + xhr.statusText);
       }

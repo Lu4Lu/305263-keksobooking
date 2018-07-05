@@ -1,19 +1,22 @@
 'use strict';
 (function () {
-  var PIN_HEIGHT = 70;
-  var PIN_WIDTH = 50;
+  var PinSize = {
+    HEIGHT: 70,
+    WIDTH: 50
+  };
+
   var SHOWED_PINS_AMOUNT = 5;
 
   var mapElement = document.querySelector('.map');
 
   var pinsContainerElement = mapElement.querySelector('.map__pins');
-  var pinTemplate = document.querySelector('template').content.querySelector('.map__pin');
-  window.pinButtonElement = pinsContainerElement.querySelectorAll('.map__pin');
+  var pinTemplateElement = document.querySelector('template').content.querySelector('.map__pin');
+  var pinButtonElement = pinsContainerElement.querySelectorAll('.map__pin');
 
   function renderPin(accommodation) {
-    var pinElement = pinTemplate.cloneNode(true);
-    pinElement.style.left = accommodation.location.x - PIN_WIDTH / 2 + 'px';
-    pinElement.style.top = accommodation.location.y - PIN_HEIGHT + 'px';
+    var pinElement = pinTemplateElement.cloneNode(true);
+    pinElement.style.left = accommodation.location.X - PinSize.WIDTH / 2 + 'px';
+    pinElement.style.top = accommodation.location.Y - PinSize.HEIGHT + 'px';
     pinElement.querySelector('img').src = accommodation.author.avatar;
     pinElement.querySelector('img').alt = accommodation.offer.title;
     // set event listener for every pin element
@@ -60,8 +63,11 @@
     window.disableFilters(false);
   }
 
+
   window.renderUserPins = renderUserPins;
   window.deletePins = deletePins;
   window.deactivatePins = deactivatePins;
   window.activatePin = activatePin;
+
+  window.pinButtonElement = pinButtonElement;
 })();

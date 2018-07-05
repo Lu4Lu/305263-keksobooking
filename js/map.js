@@ -2,84 +2,84 @@
 //
 // Pin interaction with web site
 //
-var Keycode = {
-  ESC: 27,
-  ENTER: 13
-};
+(function () {
+  var Keycode = {
+    ESC: 27,
+    ENTER: 13
+  };
 
-window.mapElement = document.querySelector('.map');
-var mainPinElement = window.mapElement.querySelector('.map__pin--main');
-window.formContainerElement = document.querySelector('.ad-form');
-var closeErrorMessageElement = document.querySelector('.error__message--close');
+  window.mapElement = document.querySelector('.map');
+  var mainPinElement = window.mapElement.querySelector('.map__pin--main');
+  window.formContainerElement = document.querySelector('.ad-form');
+  var closeErrorMessageElement = document.querySelector('.error__message--close');
 
-window.isMapActive = false;
+  window.isMapActive = false;
 
-// actions on main pin release
-function releaseMainPin() {
-  window.form.setAddress(mainPinElement);
-  // load data and render pins
-  if (window.isMapActive === false) {
-    window.load(
-        function (data) {
-          window.appartments = data;
-          window.renderUserPins(data);
-        },
-        window.onError
-    );
-    window.pageMode.toActive();
+  // actions on main pin release
+  function releaseMainPin() {
+    window.form.setAddress(mainPinElement);
+    // load data and render pins
+    if (window.isMapActive === false) {
+      window.load(
+          function (data) {
+            window.appartments = data;
+            window.renderUserPins(data);
+          },
+          window.onError
+      );
+      window.pageMode.toggleActive();
+    }
   }
-}
 
-function closeSuccessMessage() {
-  window.successMessageElement.classList.add('hidden');
-}
-
-function closeErrorMessage() {
-  window.errorMessageContainer.classList.add('hidden');
-}
-
-// close card by esc press
-window.mapElement.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === Keycode.ESC) {
-    window.closePopup();
+  function closeSuccessMessage() {
+    window.successMessageElement.classList.add('hidden');
   }
-});
 
-closeErrorMessageElement.addEventListener('click', function () {
-  closeSuccessMessage();
-});
+  function closeErrorMessage() {
+    window.errorMessageContainerElement.classList.add('hidden');
+  }
 
-window.formContainerElement.addEventListener('submit', window.onFormSubmit, window.onError);
+  // close card by esc press
+  window.mapElement.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === Keycode.ESC) {
+      window.closePopup();
+    }
+  });
 
-document.addEventListener('click', function () {
-  closeSuccessMessage();
-});
-
-document.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === Keycode.ESC) {
+  closeErrorMessageElement.addEventListener('click', function () {
     closeSuccessMessage();
-  }
-});
+  });
 
-closeErrorMessageElement.addEventListener('click', function () {
-  closeErrorMessage();
-});
+  window.formContainerElement.addEventListener('submit', window.form.onFormSubmit, window.onError);
 
-document.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === Keycode.ESC) {
+  document.addEventListener('click', function () {
+    closeSuccessMessage();
+  });
+
+  document.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === Keycode.ESC) {
+      closeSuccessMessage();
+    }
+  });
+
+  closeErrorMessageElement.addEventListener('click', function () {
     closeErrorMessage();
-  }
-});
+  });
 
-// click on main pin
-mainPinElement.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === Keycode.ENTER) {
-    releaseMainPin();
-  }
-});
+  document.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === Keycode.ESC) {
+      closeErrorMessage();
+    }
+  });
 
-window.map = {
-  releaseMainPin: releaseMainPin
-};
+  // click on main pin
+  mainPinElement.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === Keycode.ENTER) {
+      releaseMainPin();
+    }
+  });
 
-// window.releaseMainPin = releaseMainPin;
+  window.map = {
+    releaseMainPin: releaseMainPin
+  };
+})();

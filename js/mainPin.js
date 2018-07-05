@@ -1,15 +1,15 @@
 'use strict';
-//
-// Main pin dragging.
-//
+// Main pin dragging
 (function () {
-  var MAX_MAP_LEFT = 0;
-  var MAX_MAP_TOP = 130;
-  var MAX_MAP_BOTTOM = 630;
+  var MaxMapCoord = {
+    LEFT: 0,
+    TOP: 130,
+    BOTTOM: 630
+  };
 
-  var MAIN_PIN_INIT_COORDS = {
-    x: 570,
-    y: 375
+  var MainPinInitCoord = {
+    X: 570,
+    Y: 375
   };
 
   var mainPinElement = document.querySelector('.map__pin--main');
@@ -18,9 +18,9 @@
     evt.preventDefault();
 
     var limitRect = {
-      top: MAX_MAP_TOP - mainPinElement.clientHeight,
-      bottom: MAX_MAP_BOTTOM - mainPinElement.clientHeight,
-      left: MAX_MAP_LEFT,
+      top: MaxMapCoord.TOP - mainPinElement.clientHeight,
+      bottom: MaxMapCoord.BOTTOM - mainPinElement.clientHeight,
+      left: MaxMapCoord.LEFT,
       right: window.mapElement.clientWidth - mainPinElement.clientWidth
     };
 
@@ -49,7 +49,6 @@
 
     function onMouseUp(upEvt) {
       upEvt.preventDefault();
-
       window.map.releaseMainPin();
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
@@ -61,11 +60,12 @@
 
   // reset main pin to initial coords
   var resetMainPin = function () {
-    mainPinElement.style.left = MAIN_PIN_INIT_COORDS.x + 'px';
-    mainPinElement.style.top = MAIN_PIN_INIT_COORDS.y + 'px';
-    window.setAddress(mainPinElement);
+    mainPinElement.style.left = MainPinInitCoord.X + 'px';
+    mainPinElement.style.top = MainPinInitCoord.Y + 'px';
+    window.form.setAddress(mainPinElement);
   };
 
-  window.resetMainPin = resetMainPin;
-
+  window.mainPin = {
+    resetMainPin: resetMainPin
+  };
 })();

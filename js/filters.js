@@ -28,17 +28,20 @@
   }
 
   function filterPrice(pin) {
-    var MIN_FILTER_PRICE = 10000;
-    var MAX_FILTER_PRICE = 50000;
+    var FilterPrice = {
+      MIN: 10000,
+      MAX: 50000
+    };
+
     switch (housingPriceElement.value) {
       case 'any':
         return true;
       case 'low':
-        return pin.offer.price <= MIN_FILTER_PRICE;
+        return pin.offer.price <= FilterPrice.MIN;
       case 'middle':
-        return pin.offer.price >= MIN_FILTER_PRICE && pin.offer.price <= MAX_FILTER_PRICE;
+        return pin.offer.price >= FilterPrice.MIN && pin.offer.price <= FilterPrice.MAX;
       case 'high':
-        return pin.offer.price >= MAX_FILTER_PRICE;
+        return pin.offer.price >= FilterPrice.MAX;
       default:
         return pin.offer.price === housingPriceElement.value;
     }
