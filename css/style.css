@@ -539,7 +539,7 @@ fieldset {
           align-items: center;
 
   margin-right: 10px;
-  padding: 0 15px;
+  padding: 0;
 
   width: 70px;
   height: 70px;
@@ -550,7 +550,24 @@ fieldset {
   background-color: #dadada;
 }
 
+.ad-form-header__preview input[type=file] {
+  position: absolute;
+  z-index: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+
+  left: 0;
+  top: 0;
+}
+
+.ad-form-header__preview img {
+  margin: 0 15px;
+}
+
+
 .ad-form__field {
+  position: relative;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -563,6 +580,7 @@ fieldset {
 }
 
 .ad-form-header__drop-zone {
+  display: block;
   height: 70px;
   padding: 10px 10px 5px;
 
@@ -787,6 +805,18 @@ fieldset {
 .ad-form__upload:last-of-type {
   margin-right: 0;
 }
+
+.ad-form-header__upload input {
+  position: absolute;
+  z-index: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+
+  left: 0;
+  top: 0;
+}
+
 
 .ad-form__drop-zone {
   height: 70px;
